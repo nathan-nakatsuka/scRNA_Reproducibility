@@ -150,7 +150,7 @@ for(i in 1:length(Datasets)){
 			avg_temp <- subset(currentTest, subset=predicted.celltype.l3==as.character(BroadClusterTypes[j]))
 			### Do Differential expression analysis
 			Idents(avg_temp) <- "Diagnosis"
-			temp10 <- FindMarkers(avg_temp, ident.1="AD",ident.2="Control",test.use="DESeq2",group.by = 'Diagnosis', logfc.threshold = 0, min.pct=0, min.cells.group=1)
+			temp10 <- FindMarkers(avg_temp, ident.1="AD",ident.2="Control",test.use="DESeq2",group.by = 'Diagnosis', logfc.threshold = 0, min.pct=0, min.cells.group=1,pseudocount.use=1)
 			temp10$Gene = rownames(temp10)
 			## Remove all mitochondrial genes
 			temp10 = temp10[!grepl('MT-',temp10$Gene),]
@@ -324,7 +324,7 @@ for(i in 1:length(Datasets)){
 			avg_temp <- subset(currentTest_Male, subset=predicted.celltype.l3==as.character(BroadClusterTypes[j]))
 			### Do Differential expression analysis
 			Idents(avg_temp) <- "Diagnosis"
-			temp10 <- FindMarkers(avg_temp, ident.1="AD",ident.2="Control",test.use="DESeq2",group.by = 'Diagnosis', logfc.threshold = 0, min.pct=0, min.cells.group=1)
+			temp10 <- FindMarkers(avg_temp, ident.1="AD",ident.2="Control",test.use="DESeq2",group.by = 'Diagnosis', logfc.threshold = 0, min.pct=0, min.cells.group=1,pseudocount.use=1)
 			temp10$Gene = rownames(temp10)
 			temp10 = temp10[!grepl('MT-',temp10$Gene),]
 		}
@@ -337,7 +337,7 @@ for(i in 1:length(Datasets)){
 			avg_temp <- subset(currentTest_Female, subset=predicted.celltype.l3==as.character(BroadClusterTypes[j]))
 			### Do Differential expression analysis
 			Idents(avg_temp) <- "Diagnosis"
-			temp10 <- FindMarkers(avg_temp, ident.1="AD",ident.2="Control",test.use="DESeq2",group.by = 'Diagnosis', logfc.threshold = 0, min.pct=0, min.cells.group=1)
+			temp10 <- FindMarkers(avg_temp, ident.1="AD",ident.2="Control",test.use="DESeq2",group.by = 'Diagnosis', logfc.threshold = 0, min.pct=0, min.cells.group=1,pseudocount.use=1)
 			temp10$Gene = rownames(temp10)
 			temp10 = temp10[!grepl('MT-',temp10$Gene),]
 		}
@@ -350,7 +350,7 @@ for(i in 1:length(Datasets)){
 			avg_temp <- subset(currentTest_AD, subset=predicted.celltype.l3==as.character(BroadClusterTypes[j]))
             ### Do Differential expression analysis
             Idents(avg_temp) <- "Diagnosis"
-            temp10 <- FindMarkers(avg_temp, ident.1="F",ident.2="M",test.use="DESeq2",group.by = 'SEX', logfc.threshold = 0, min.pct=0, min.cells.group=1)
+            temp10 <- FindMarkers(avg_temp, ident.1="F",ident.2="M",test.use="DESeq2",group.by = 'SEX', logfc.threshold = 0, min.pct=0, min.cells.group=1,pseudocount.use=1)
             temp10$Gene = rownames(temp10)
             temp10 = temp10[!grepl('MT-',temp10$Gene),]
 		}
@@ -363,7 +363,7 @@ for(i in 1:length(Datasets)){
 			avg_temp <- subset(currentTest_Control, subset=predicted.celltype.l3==as.character(BroadClusterTypes[j]))
             ### Do Differential expression analysis
             Idents(avg_temp) <- "Diagnosis"
-            temp10 <- FindMarkers(avg_temp, ident.1="F",ident.2="M",test.use="DESeq2",group.by = 'SEX', logfc.threshold = 0, min.pct=0, min.cells.group=1)
+            temp10 <- FindMarkers(avg_temp, ident.1="F",ident.2="M",test.use="DESeq2",group.by = 'SEX', logfc.threshold = 0, min.pct=0, min.cells.group=1,pseudocount.use=1)
             temp10$Gene = rownames(temp10)
             temp10 = temp10[!grepl('MT-',temp10$Gene),]
 		}
@@ -376,7 +376,7 @@ for(i in 1:length(Datasets)){
             avg_temp <- subset(currentTest_AD, subset=predicted.celltype.l3==as.character(BroadClusterTypes[j]))
             ### Do Differential expression analysis
             Idents(avg_temp) <- "Diagnosis"
-            temp10 <- FindMarkers(avg_temp, ident.1="M",ident.2="F",test.use="DESeq2",group.by = 'SEX', logfc.threshold = 0, min.pct=0, min.cells.group=1)
+            temp10 <- FindMarkers(avg_temp, ident.1="M",ident.2="F",test.use="DESeq2",group.by = 'SEX', logfc.threshold = 0, min.pct=0, min.cells.group=1,pseudocount.use=1)
             temp10$Gene = rownames(temp10)
             temp10 = temp10[!grepl('MT-',temp10$Gene),]
 		}
@@ -389,7 +389,7 @@ for(i in 1:length(Datasets)){
             avg_temp <- subset(currentTest_Control, subset=predicted.celltype.l3==as.character(BroadClusterTypes[j]))
             ### Do Differential expression analysis
             Idents(avg_temp) <- "Diagnosis"
-            temp10 <- FindMarkers(avg_temp, ident.1="M",ident.2="F",test.use="DESeq2",group.by = 'SEX', logfc.threshold = 0, min.pct=0, min.cells.group=1)
+            temp10 <- FindMarkers(avg_temp, ident.1="M",ident.2="F",test.use="DESeq2",group.by = 'SEX', logfc.threshold = 0, min.pct=0, min.cells.group=1,pseudocount.use=1)
             temp10$Gene = rownames(temp10)
             temp10 = temp10[!grepl('MT-',temp10$Gene),]
           }
