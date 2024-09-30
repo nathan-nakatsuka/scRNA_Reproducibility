@@ -15,7 +15,6 @@ GetCommonGenes <- function(DatasetNames,BroadClusterTypes,PresenceofDataTable){
 }
 
 SumRank <- function(DatasetNames,BroadClusterTypes,CommonGenes,PercentageofTopDatasets,PresenceofDataTable,directory){
-  
 #### Step 1: Rank by Signed NegLog p-value
 for(i in 1:length(DatasetNames)){
 	for(j in 1:length(BroadClusterTypes)){
