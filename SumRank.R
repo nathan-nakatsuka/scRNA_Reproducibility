@@ -32,6 +32,7 @@ for(i in 1:length(DatasetNames)){
       }
     }
   }
+	
 #### Step 2: Add the signed neglog10p-value ranks of all datasets together
 SumRankTable=data.frame(1:length(CommonGenes))
 SumRankTable[,1]=CommonGenes[order(as.character(CommonGenes))]
