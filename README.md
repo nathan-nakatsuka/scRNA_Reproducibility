@@ -59,9 +59,13 @@ Steps:
 <br/>
 1) Download the following COVID-19 datasets in Seurat object form from: https://atlas.fredhutch.org/fredhutch/covid/
 <br/>
--Wilk, Arunachalam, Lee, Wen
+-Wilk, Arunachalam, Lee, Wen<br/>
 2) Perform differential expression<br/>
-3) 
+3) Perform SumRank Analyses.<br/>
+4) Perform Permutations and SumRank analyses of the Permutations.<br/>
+5) Use the permutations to calibrate the p-values of the real data.<br/>
+6) Plot the results.
+  <br/> 
 ```
 AverageMetaData <- function(orig, avg, f = NULL) {
   f <- f %||% Idents(object = orig)
