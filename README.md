@@ -43,9 +43,9 @@ Step 2) Calibrate p-values empirically.
 
 
 
-
-
-
+<br/>
+<br/>
+<br/>
 
 
 
@@ -88,10 +88,21 @@ AverageMetaData <- function(orig, avg, f = NULL) {
 }
 
 # Note, this requires the individual ID to be labeled with the column name "patient".
-PseudobulkSeuratObject <- function(SeuratObject, CellTypeLevel){
+# Note, this is an aggregate pseudobulk for DESeq2. If you want to get the mean use the PseudobulkSeuratObject_Mean function
+PseudobulkSeuratObject_Aggregate <- function(SeuratObject, CellTypeLevel){
    DefaultAssay(SeuratObject) <- "RNA"
    SeuratObject <- NormalizeData(SeuratObject)
    avg_exp_SeuratObject <- Seurat:::PseudobulkExpression(SeuratObject, slot="counts",pb.method='aggregate', group.by = c(CellTypeLevel, "patient"), return.seurat = T)
+   #Give back labels to the object
+   Idents(SeuratObject) <- CellTypeLevel
+   avg_exp_SeuratObject <- AverageMetaData(SeuratObject, avg_exp_SeuratObject, f=paste(as.character(x=Idents(object=SeuratObject)),SeuratObject$patient,sep='_'))
+   return(avg_exp_SeuratObject)
+}
+
+PseudobulkSeuratObject_Mean <- function(SeuratObject, CellTypeLevel){
+   DefaultAssay(SeuratObject) <- "RNA"
+   SeuratObject <- NormalizeData(SeuratObject)
+   avg_exp_SeuratObject <- AverageExpression(SeuratObject, group.by = c(CellTypeLevel, "patient"), return.seurat = T)
    #Give back labels to the object
    Idents(SeuratObject) <- CellTypeLevel
    avg_exp_SeuratObject <- AverageMetaData(SeuratObject, avg_exp_SeuratObject, f=paste(as.character(x=Idents(object=SeuratObject)),SeuratObject$patient,sep='_'))
@@ -108,19 +119,23 @@ assign(paste0(Datasets[i],"_Seurat),temp)
 # Do pseudobulking
 for(i in 1:length(Datasets)){
 temp = get(paste0(Datasets[i],"_Seurat))
-avg_temp = PseudobulkSeuratObject(temp, "predicted.celltype.l1")
-assign(paste0(Datasets[i],"_Seurat),temp)
+avg_temp = PseudobulkSeuratObject_Aggregate(temp, "predicted.celltype.l1")
+assign(paste0("avg_exp_",Datasets[i]),avg_temp)
 }
 
 # Differential Expression (only doing Monocytes here as an example)
+# Note: All of these files will be output to the same directory. User can make another directory and output files there if desired.
+ClusterofInterest = "Mono"
+for(i in 1:length(Datasets)){
     currentTest <- get(paste("avg_exp_",Datasets[i],sep=""))
-    avg_temp <- subset(currentTest, subset=predicted.celltype.l1==as.character(BroadClusterTypes[j]))
+    avg_temp <- subset(currentTest, subset=predicted.celltype.l1==ClusterofInterest)
     Idents(avg_temp) <- "disease_status_standard"
     temp10 <- FindMarkers(avg_temp, ident.1="COVID-19",ident.2="healthy",test.use="DESeq2",group.by = 'disease_status_standard', logfc.threshold = 0, min.pct=0)
     temp10$Gene = rownames(temp10)
+    # Remove all mitochondrial genes.
     temp10 = temp10[!grepl('MT-',temp10$Gene),]
-    write.table(temp10, file=paste(Datasets[i],"_",BroadClusterTypes[j],"_DESeq2_Pseudobulk_All.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
-
+    write.table(temp10, file=paste(Datasets[i],"_",ClusterofInterest,"_DESeq2_Pseudobulk_All.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+}
 ```
 
 
