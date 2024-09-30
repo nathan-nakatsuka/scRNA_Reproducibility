@@ -23,10 +23,12 @@ The UCell_AUC_code.R document has code for obtaining UCell scores from gene sets
 1) Perform QC and determine cell type of each cell (e.g. by mapping to an atlas).<br/>
 2) Perform differential expression on each cell type in each dataset.:<br/>
 Alternatives: <br/>
-a) Perform pseudobulking per individual and per cell type if using a bulk RNA-sequencing differential expression method (e.g. DESeq2). 
+a) Perform pseudobulking per individual and per cell type if using a bulk RNA-sequencing differential expression method (e.g. DESeq2).  <br/>
 Alternatively, b) use a mixed model differential expression method to control for within individual correlation of gene expression.
 <br/>
-**Combine the results of the datasets with SumRank.** <br/>
+
+**Combine the results of the datasets with SumRank.** 
+<br/>
 Step 1) Run SumRank on your real data.<br/>
 Step 2) Calibrate p-values empirically.<br/>
 2a) Perform permutations of case-control status and do differential expression on each of your datasets. Then run SumRank on the results of these differential expression analyses as in Step 1.<br/>
