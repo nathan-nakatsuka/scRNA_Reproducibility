@@ -27,6 +27,7 @@ a) Perform pseudobulking per individual and per cell type if using a bulk RNA-se
 Alternatively, b) use a mixed model differential expression method to control for within individual correlation of gene expression.<br/>
 -Important note: when doing differential expression, you must output ALL genes (i.e. do NOT impose any threshold cutoffs), because SumRank is dependent on the relative ranks of all genes in all datasets.<br/>
 <br/>
+
 **Combine the results of the datasets with SumRank.** 
 <br/>
 1) Run SumRank on your real data.<br/>
