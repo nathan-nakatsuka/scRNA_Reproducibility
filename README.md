@@ -54,9 +54,14 @@ Step 2) Calibrate p-values empirically.
 
 
 Vignette Example:
+<br/>
+Steps:
+<br/>
 1) Download the following COVID-19 datasets in Seurat object form from: https://atlas.fredhutch.org/fredhutch/covid/
+<br/>
 -Wilk, Arunachalam, Lee, Wen
-2) Perform differential expression
+2) Perform differential expression<br/>
+3) 
 ```
 AverageMetaData <- function(orig, avg, f = NULL) {
   f <- f %||% Idents(object = orig)
