@@ -1,5 +1,5 @@
 
-PermuteCaseControl <- function(DatasetNames,PresenceofDataTable,CellTypeName){
+PermuteCaseControl <- function(DatasetNames,PresenceofDataTable,CellTypeName,BroadClusterTypes){
 	for(i in 1:length(DatasetNames)){
 		currentTest <- get(paste("avg_exp_DESeq2_PredictedCellTypeL1_2_",DatasetNames[i],sep=""))
         individuals = unique(currentTest$patient)
