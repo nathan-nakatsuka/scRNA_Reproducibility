@@ -1,3 +1,4 @@
+# This is a function to give back labels to an object after you pseudobulked it.
 AverageMetaData <- function(orig, avg, f = NULL) {
   f <- f %||% Idents(object = orig)
   f <- as.character(x = f)
@@ -27,6 +28,7 @@ AverageMetaData <- function(orig, avg, f = NULL) {
   return(avg)
 }
 
+# This is a function to pseudobulk objects and give them back their original labels.
 # Note, this requires the individual ID to be labeled with the column name "patient".
 # Note, this is an aggregate pseudobulk for DESeq2. If you want to get the mean use the PseudobulkSeuratObject_Mean function
 PseudobulkSeuratObject_Aggregate <- function(SeuratObject, CellTypeLevel){
