@@ -1,6 +1,5 @@
 
 # Vignette Example:
-<br/>
 
 **Steps:**
 <br/>
