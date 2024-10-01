@@ -1,6 +1,7 @@
 # This code permutes cases and controls. It requires the following: DatasetName (a string with the name of the Dataset in PresenceofDataTable)
 # PresenceofDataTable (a table indicating whether the dataset has cells for each cell type), CellTypeName (a string indicating what is the cell type label, such as "predicted.celltype.l1")
 # BroadClusterTypes (a vector of strings naming all cell types), CaseName (a string naming what cases are called in the dataset, such as "COVID-19"), and ControlName (a string naming what controls are called in the dataset, such as "healthy").
+# Note: for this code you must call the individual ID as "patient" and the disease name as "disease_status_standard".
 PermuteCaseControl <- function(DatasetName,avg_exp_Dataset,PresenceofDataTable,CellTypeName,BroadClusterTypes,CaseName,ControlName){
 	individuals = unique(avg_exp_Dataset$patient)
         individuals = na.omit(individuals)
