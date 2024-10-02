@@ -29,6 +29,7 @@ AverageMetaData <- function(orig, avg, f = NULL) {
 }
 
 # This is a function to pseudobulk objects and give them back their original labels.
+# CellTypeLevel indicates the cell type level resolution (e.g. "predicted.celltype.l1")
 # Note, this requires the individual ID to be labeled with the column name "patient".
 # Note, this is an aggregate pseudobulk for DESeq2. If you want to get the mean use the PseudobulkSeuratObject_Mean function
 PseudobulkSeuratObject_Aggregate <- function(SeuratObject, CellTypeLevel){
