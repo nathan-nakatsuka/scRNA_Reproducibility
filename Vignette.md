@@ -7,7 +7,7 @@
 -Wilk, Arunachalam, Lee, Wen<br/>
 2) Perform differential expression<br/>
 3) Perform SumRank Analyses.<br/>
-4) Perform Permutations and SumRank analyses of the Permutations.<br/>
+4) Perform Permutations of case/control status and then differential expression and SumRank analyses of the Permutations.<br/>
 5) Use the permutations to calibrate the p-values of the real data.<br/>
 6) Plot the results.<br/> 
 ```
@@ -42,16 +42,47 @@ for(i in 1:length(Datasets)){
     temp10$Gene = rownames(temp10)
     # Remove all mitochondrial genes.
     temp10 = temp10[!grepl('MT-',temp10$Gene),]
-    write.table(temp10, file=paste(Datasets[i],"_",ClusterofInterest,"_DESeq2_Pseudobulk_All.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+    write.table(temp10, file=paste(Datasets[i],"_",ClusterofInterest,"_DifferentialExpression.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 }
 
 # Get PresenceofDataTable
-
+COVID_DatasetNames = c("wilk","arunachalam","lee","wen")
+BroadClusterTypes_COVID = unique(avg_exp_wilk$predicted.celltype.l1_2)
+PresenceofDataTable_COVID = MakePresenceofDataTable(COVID_DatasetNames,BroadClusterTypes)
 
 # Get common genes
-COVID_DatasetNames = c("wilk","arunachalam","lee","wen")
-CommonGenes = GetCommonGenes(COVID_DatasetNames,"Mono",PresenceofDataTable_COVID)
+CommonGenes_COVID = GetCommonGenes(COVID_DatasetNames,"Mono",PresenceofDataTable_COVID)
 
+# SumRank
+SumRank(COVID_DatasetNames,BroadClusterTypes_COVID,CommonGenes_COVID,1.0,PresenceofDataTable_COVID,"/home/mydirectory")
+
+# Do Permutations
+# Note: it is ideal to do this on a cluster in parallel.
+# Do each of these 500-1000 times with different names.
+PermutationNumber=1
+for(i in 1:length(Datasets)){
+    currentTest <- get(paste("avg_exp_",Datasets[i],sep=""))
+    avg_temp <- subset(currentTest, subset=predicted.celltype.l1_2==ClusterofInterest)
+    avg_temp <- PermuteCaseControl(Datasets[i],avg_temp,PresenceofDataTable_COVID,"predicted.celltype.l1_2",BroadClusterTypes_COVID,"COVID-19","healthy")
+    assign(paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNumber)),avg_temp)
+}
+
+# make directories entitled Permutation1 (and 2 through 100)
+# Do Differential expression on permutations
+for(i in 1:length(Datasets)){
+    currentTest <- get(paste("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNumber),sep=""))
+    avg_temp <- subset(currentTest, subset=predicted.celltype.l1_2==ClusterofInterest)
+    Idents(avg_temp) <- "disease_status_standard_Permuted"
+    temp10 <- FindMarkers(avg_temp, ident.1="COVID-19",ident.2="healthy",test.use="DESeq2",group.by = 'disease_status_standard_Permuted', logfc.threshold = 0, min.pct=0)
+    temp10$Gene = rownames(temp10)
+    # Remove all mitochondrial genes.
+    temp10 = temp10[!grepl('MT-',temp10$Gene),]
+    write.table(temp10, file=paste(Datasets[i],"_",ClusterofInterest,"_DifferentialExpression_Permutation_",as.character(PermutationNumber),".txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+}
+
+SumRank(COVID_DatasetNames,BroadClusterTypes_COVID,SuffixofDifferentialExpressionOutput=paste0("Permutation",as.character(PermutationNumber)),CommonGenes_COVID,1.0,PresenceofDataTable_COVID,paste0("/home/mydirectory/Permutation",as.character(PermutationNumber)))
+
+# Combine the permutation results and compare to the results of real data to calibrate the p-values of the real data.
 
 ```
 
