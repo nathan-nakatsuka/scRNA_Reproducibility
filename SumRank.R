@@ -39,8 +39,8 @@ for(i in 1:length(DatasetNames)){
 			currentTest$SignedNegLogPVal_rank = rank(-currentTest$SignedNegLogPVal)
 			if(!(SuffixofDifferentialExpressionOutput=="")){write.table(currentTest, file=paste(directory,DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked_",as.character(SuffixofDifferentialExpressionOutput),".txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)}
 			if((SuffixofDifferentialExpressionOutput=="")){write.table(currentTest, file=paste(directory,DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)}
-      }
-    }
+      		}
+    	}
   }
 	
 #### Step 2: Add the signed neglog10p-value ranks of all datasets together
