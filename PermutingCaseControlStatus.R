@@ -1,10 +1,10 @@
 # This code permutes cases and controls. It requires the following: DatasetName (a string with the name of the Dataset in PresenceofDataTable)
-# PresenceofDataTable (a table indicating whether the dataset has cells for each cell type), CellTypeName (a string indicating what is the cell type label, such as "predicted.celltype.l1"),
+# PresenceofDataTable (a table indicating whether the dataset has cells for each cell type), CellTypeLevel (a string indicating what is the cell type label, such as "predicted.celltype.l1"),
 # avg_exp_Dataset is a Seurat object that the user will use for differential expression. This is usually a pseudobulked object (or not pseudobulked if using a mixed model for differential expression).
 # BroadClusterTypes (a vector of strings naming all cell types), CaseName (a string naming what cases are called in the dataset, such as "COVID-19"), and ControlName (a string naming what controls are called in the dataset, such as "healthy").
 # Note: for this code you must call the individual ID as "patient" and the disease name as "disease_status_standard" in the avg_exp_Dataset Seurat Object.
 # This will output a new Seurat object with the column name disease_status_standard_Permuted
-PermuteCaseControl <- function(DatasetName,avg_exp_Dataset,PresenceofDataTable,CellTypeName,BroadClusterTypes,CaseName,ControlName){
+PermuteCaseControl <- function(DatasetName,avg_exp_Dataset,PresenceofDataTable,CellTypeLevel,BroadClusterTypes,CaseName,ControlName){
 	individuals = unique(avg_exp_Dataset$patient)
         individuals = na.omit(individuals)
         Individualtodisease_status_standardTable = data.frame(1:length(individuals))
@@ -35,8 +35,8 @@ PermuteCaseControl <- function(DatasetName,avg_exp_Dataset,PresenceofDataTable,C
           CaseTest = data.frame(1:length(TestClusters))
           ControlTest = data.frame(1:length(TestClusters))
           for(w in 1:length(TestClusters)){
-            CaseTest[w,1]=nrow(Case_metadata[Case_metadata[[CellTypeName]]==TestClusters[w],])
-            ControlTest[w,1]=nrow(Control_metadata[Control_metadata[[CellTypeName]]==TestClusters[w],])
+            CaseTest[w,1]=nrow(Case_metadata[Case_metadata[[CellTypeLevel]]==TestClusters[w],])
+            ControlTest[w,1]=nrow(Control_metadata[Control_metadata[[CellTypeLevel]]==TestClusters[w],])
           }
           if(all(CaseTest[,1]>1) & all(ControlTest[,1]>1)){d=1}
         }
