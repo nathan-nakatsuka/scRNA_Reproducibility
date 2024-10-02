@@ -32,7 +32,7 @@ assign(paste0("avg_exp_",Datasets[i]),avg_temp)
 }
 
 # Differential Expression (only doing Monocytes here as an example)
-# Note: This is only 
+# Note: This is only for up-regulated genes (for down-regulated genes, just switch the COVID-19 to ident.2 and the healthy to ident.1).
 # Note: All of these files will be output to the same directory. User can make another directory and output files there if desired.
 ClusterofInterest = "Mono"
 for(i in 1:length(Datasets)){
@@ -72,7 +72,7 @@ CellTypeLevel="predicted.celltype.l1_2", BroadClusterTypes=BroadClusterTypes_COV
     assign(paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNumber)),avg_temp)
 }
 
-# make directories entitled Permutation1 (and 2 through 100)
+# To organize, if you have many cell types, you can make directories entitled something like "/home/mydirectory/Permutation1" (and Permutation2 through Permutation100), but here we do not do that
 # Do Differential expression on permutations
 for(i in 1:length(Datasets)){
     currentTest <- get(paste("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNumber),sep=""))
@@ -88,13 +88,12 @@ for(i in 1:length(Datasets)){
 # Do SumRank on the permuted differential expression data.
 SumRank(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID,
 SuffixofDifferentialExpressionOutput=SuffixofDifferentialExpressionOutput=paste0("Permutation",as.character(PermutationNumber)),
-CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutation",as.character(PermutationNumber)))
+CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/"))
 
 # Combine the permutation results
 TotalNumberofPermutations = 100
 ComparisonTable = data.frame(1:TotalNumberofPermutations)
 for(z in 1:TotalNumberofPermutations){
-    setwd(paste0("/home/mydirectory/Permutation",as.character(PermutationNumber)))
     PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation",as.character(z),".txt",sep=""),header=T)
     ComparisonTable[((z-1)*length(CommonGenes)+1):(z*length(CommonGenes)),1] = PVal_DirwinHallTable$NegLogPValue
 }
