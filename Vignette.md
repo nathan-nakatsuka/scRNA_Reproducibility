@@ -11,7 +11,7 @@
 5) Use the permutations to calibrate the p-values of the real data.<br/>
 6) Plot the results.<br/> 
 ```
-# Load in the following functions that can be found in PseudoBulking.R and SumRank.R code: AverageMetaData, PseudobulkSeuratObject_Aggregate, GetCommonGenes, SumRank
+# Load in the following functions that can be found in PseudoBulking.R and SumRank.R code: AverageMetaData, PseudobulkSeuratObject_Aggregate, GetCommonGenes, SumRank, MakePresenceofDataTable, PermuteCaseControl, CalibratePValueswithPermutations
 
 library(Seurat)
 library(DESeq2)
