@@ -14,7 +14,7 @@ GetCommonGenes <- function(DatasetNames,BroadClusterTypes,PresenceofDataTable){
   return(CommonGenes)
 }
 
-SumRank <- function(DatasetNames,BroadClusterTypes,CommonGenes,PercentageofTopDatasets,PresenceofDataTable,directory){
+SumRank <- function(DatasetNames,BroadClusterTypes,CommonGenes,ProportionofTopDatasets,PresenceofDataTable,directory){
 #### Step 1: Rank by Signed NegLog p-value
 for(i in 1:length(DatasetNames)){
 	for(j in 1:length(BroadClusterTypes)){
@@ -76,14 +76,14 @@ for(j in 1:length(BroadClusterTypes)){
 	}
 	## Get the top percent of datasets by sorting.
 	SumRankTable2[,2:(ncol(SumRankTable2)-1)] = sorted_rankings
-	Small_SumRankTable=SumRankTable2[,1:(NumberofRelevantDatasetsForRounding*as.numeric(PercentageofTopDatasets)+1)]
-	Small_SumRankTable[,((NumberofRelevantDatasetsForRounding*as.numeric(PercentageofTopDatasets))+2)]=rowSums(Small_SumRankTable[,2:((NumberofRelevantDatasetsForRounding*as.numeric(PercentageofTopDatasets))+1)])
-	write.table(Small_SumRankTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",PercentageofTopDatasets,"_ofDatasets.txt",sep=""),sep="\t",row.names=FALSE,col.names=FALSE,quote=FALSE)
+	Small_SumRankTable=SumRankTable2[,1:(NumberofRelevantDatasetsForRounding*as.numeric(ProportionofTopDatasets)+1)]
+	Small_SumRankTable[,((NumberofRelevantDatasetsForRounding*as.numeric(ProportionofTopDatasets))+2)]=rowSums(Small_SumRankTable[,2:((NumberofRelevantDatasetsForRounding*as.numeric(ProportionofTopDatasets))+1)])
+	write.table(Small_SumRankTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",as.character(ProportionofTopDatasets),"_ofDatasets.txt",sep=""),sep="\t",row.names=FALSE,col.names=FALSE,quote=FALSE)
 }
 
 #### Step 4: Get p-values for each gene by Irwin Hall distribution
 for(j in 1:length(BroadClusterTypes)){
-	SumRankTable <- read.table(paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",PercentageofTopDatasets,"_ofDatasets.txt",sep=""),header=F)
+	SumRankTable <- read.table(paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",as.character(ProportionofTopDatasets),"_ofDatasets.txt",sep=""),header=F)
 	PVal_DirwinHallTable=data.frame(1:length(CommonGenes))
 	PVal_DirwinHallTable[,1]=CommonGenes[order(as.character(CommonGenes))]
 	#### If the sum rank is greater than half, you need to set it to half so it won't be considered significant.
@@ -95,6 +95,6 @@ for(j in 1:length(BroadClusterTypes)){
 	colnames(PVal_DirwinHallTable)=c("Gene","P_Val")
 	PVal_DirwinHallTable$PlotPoint=1:nrow(PVal_DirwinHallTable)
 	PVal_DirwinHallTable$NegLogPValue = -log10(PVal_DirwinHallTable$P_Val)
-	write.table(PVal_DirwinHallTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",PercentageofTopDatasets,"_ofDatasets.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+	write.table(PVal_DirwinHallTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofTopDatasets),"_ofDatasets.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 }
 }
