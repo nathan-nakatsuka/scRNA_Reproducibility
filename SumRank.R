@@ -1,5 +1,8 @@
 library(unifed)
 
+# This code requires the user to have files named DatasetName_CellType_DifferentialExpression.txt in the directory
+# DatasetNames is a vector of strings of dataset names. BroadClusterTypes is a vector of cell types. PresenceofDataTable is a table detailing whether a cell type has data for each cell type.
+# This function will output a vector of genes held in common with all datasets.
 GetCommonGenes <- function(DatasetNames,BroadClusterTypes,PresenceofDataTable){
   #Find a cell type with no missing data.
   CellTypeIndexwithNoMissing = which(colSums(PresenceofDataTable[2:ncol(PresenceofDataTable)])==nrow(PresenceofDataTable))[[1]]
@@ -14,12 +17,18 @@ GetCommonGenes <- function(DatasetNames,BroadClusterTypes,PresenceofDataTable){
   return(CommonGenes)
 }
 
-SumRank <- function(DatasetNames,BroadClusterTypes,CommonGenes,ProportionofTopDatasets,PresenceofDataTable,directory){
+# DatasetNames is a vector of strings of dataset names. BroadClusterTypes is a vector of cell types. CommonGenes is a vector of genes held in common with all datasets.
+# PresenceofDataTable is a table detailing whether a cell type has data for each cell type.
+# This code requires the user to have files named DatasetName_CellType_DifferentialExpression.txt in the directory
+# SuffixofDifferentialExpressionOutput is 
+# This function will output multiple files including CellType_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_ProportionofTopDatasets_ofDatasets.txt, which includes p-values for all genes based on their reproducibility.
+SumRank <- function(DatasetNames,BroadClusterTypes,SuffixofDifferentialExpressionOutput="",CommonGenes,ProportionofTopDatasets,PresenceofDataTable,directory){
 #### Step 1: Rank by Signed NegLog p-value
 for(i in 1:length(DatasetNames)){
 	for(j in 1:length(BroadClusterTypes)){
 		if(PresenceofDataTable[PresenceofDataTable$Dataset==DatasetNames[i],][BroadClusterTypes[j]][[1]]==1){
-			currentTest <- read.table(paste(DatasetNames[i],"_",BroadClusterTypes[j],"_DifferentialExpression.txt",sep=""),header=T)
+			if(!(SuffixofDifferentialExpressionOutput=="")){currentTest <- read.table(paste(DatasetNames[i],"_",BroadClusterTypes[j],"_DifferentialExpression_",as.character(SuffixofDifferentialExpressionOutput),".txt",sep=""),header=T)}
+			if((SuffixofDifferentialExpressionOutput=="")){currentTest <- read.table(paste(DatasetNames[i],"_",BroadClusterTypes[j],"_DifferentialExpression.txt",sep=""),header=T)}
 			## CommonGenes is a vector of genes held in common with all datasets
 			currentTest = currentTest[currentTest$Gene %in% CommonGenes,]
 			currentTest$NegLogPVal = -log10(currentTest$p_val)
@@ -28,7 +37,8 @@ for(i in 1:length(DatasetNames)){
 			currentTest$SignedNegLogPVal[currentTest$avg_log2FC<0] <- -currentTest$SignedNegLogPVal[currentTest$avg_log2FC<0]
 			currentTest = currentTest[order(currentTest$SignedNegLogPVal,decreasing=TRUE),]
 			currentTest$SignedNegLogPVal_rank = rank(-currentTest$SignedNegLogPVal)
-			write.table(currentTest, file=paste(directory,DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+			if(!(SuffixofDifferentialExpressionOutput=="")){write.table(currentTest, file=paste(directory,DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked_",as.character(SuffixofDifferentialExpressionOutput),".txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)}
+			if((SuffixofDifferentialExpressionOutput=="")){write.table(currentTest, file=paste(directory,DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)}
       }
     }
   }
@@ -40,7 +50,8 @@ SumRankTable[,1]=CommonGenes[order(as.character(CommonGenes))]
 for(j in 1:length(BroadClusterTypes)){
 	for(i in 1:length(DatasetNames)){
 		if(PresenceofDataTable[PresenceofDataTable$Dataset==DatasetNames[i],][BroadClusterTypes[j]][[1]]==1){
-			currentTest <- read.table(paste(DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked.txt",sep=""),header=T)
+			if(!(SuffixofDifferentialExpressionOutput=="")){currentTest <- read.table(paste(DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked_",as.character(SuffixofDifferentialExpressionOutput),".txt",sep=""),header=T)}
+			if((SuffixofDifferentialExpressionOutput=="")){currentTest <- read.table(paste(DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked.txt",sep=""),header=T)}
 			## Order all datasets by Gene (so they can be matched properly)
 			currentTest = currentTest[order(currentTest$Gene),]
 			### Normalize the ranks
@@ -52,12 +63,14 @@ for(j in 1:length(BroadClusterTypes)){
 	}
 	SumRankTable[,(length(DatasetNames)+2)]=rowSums(SumRankTable[,2:(length(DatasetNames)+1)])
 	colnames(SumRankTable)=c("Gene",DatasetNames[1:length(DatasetNames)],"SumRankAcrossDatasets")
-	write.table(SumRankTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+	if(!(SuffixofDifferentialExpressionOutput=="")){write.table(SumRankTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_",as.character(SuffixofDifferentialExpressionOutput),".txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)}
+	if((SuffixofDifferentialExpressionOutput=="")){write.table(SumRankTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)}
 }
 
 #### Step 3:  Take the top datasets (choose a percentage) for each gene.
 for(j in 1:length(BroadClusterTypes)){
-	SumRankTable <- read.table(paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized.txt",sep=""),header=T)
+	if(!(SuffixofDifferentialExpressionOutput=="")){SumRankTable <- read.table(paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_",as.character(SuffixofDifferentialExpressionOutput),".txt",sep=""),header=T)}
+	if((SuffixofDifferentialExpressionOutput=="")){SumRankTable <- read.table(paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized.txt",sep=""),header=T)}
 	## Get a dataframe without the first and last columns to find the number of relevant Datasets
 	test=as.numeric(SumRankTable[1,][,-1])
 	test=head(test, -1)
@@ -78,12 +91,14 @@ for(j in 1:length(BroadClusterTypes)){
 	SumRankTable2[,2:(ncol(SumRankTable2)-1)] = sorted_rankings
 	Small_SumRankTable=SumRankTable2[,1:(NumberofRelevantDatasetsForRounding*as.numeric(ProportionofTopDatasets)+1)]
 	Small_SumRankTable[,((NumberofRelevantDatasetsForRounding*as.numeric(ProportionofTopDatasets))+2)]=rowSums(Small_SumRankTable[,2:((NumberofRelevantDatasetsForRounding*as.numeric(ProportionofTopDatasets))+1)])
-	write.table(Small_SumRankTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",as.character(ProportionofTopDatasets),"_ofDatasets.txt",sep=""),sep="\t",row.names=FALSE,col.names=FALSE,quote=FALSE)
+	if(!(SuffixofDifferentialExpressionOutput=="")){write.table(Small_SumRankTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",as.character(ProportionofTopDatasets),"_ofDatasets_",as.character(SuffixofDifferentialExpressionOutput),".txt",sep=""),sep="\t",row.names=FALSE,col.names=FALSE,quote=FALSE)}
+	if((SuffixofDifferentialExpressionOutput=="")){write.table(Small_SumRankTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",as.character(ProportionofTopDatasets),"_ofDatasets.txt",sep=""),sep="\t",row.names=FALSE,col.names=FALSE,quote=FALSE)}
 }
 
 #### Step 4: Get p-values for each gene by Irwin Hall distribution
 for(j in 1:length(BroadClusterTypes)){
-	SumRankTable <- read.table(paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",as.character(ProportionofTopDatasets),"_ofDatasets.txt",sep=""),header=F)
+	if(!(SuffixofDifferentialExpressionOutput=="")){SumRankTable <- read.table(paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",as.character(ProportionofTopDatasets),"_ofDatasets_",as.character(SuffixofDifferentialExpressionOutput),".txt",sep=""),header=F)}
+	if((SuffixofDifferentialExpressionOutput=="")){SumRankTable <- read.table(paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",as.character(ProportionofTopDatasets),"_ofDatasets.txt",sep=""),header=F)}
 	PVal_DirwinHallTable=data.frame(1:length(CommonGenes))
 	PVal_DirwinHallTable[,1]=CommonGenes[order(as.character(CommonGenes))]
 	#### If the sum rank is greater than half, you need to set it to half so it won't be considered significant.
@@ -95,6 +110,7 @@ for(j in 1:length(BroadClusterTypes)){
 	colnames(PVal_DirwinHallTable)=c("Gene","P_Val")
 	PVal_DirwinHallTable$PlotPoint=1:nrow(PVal_DirwinHallTable)
 	PVal_DirwinHallTable$NegLogPValue = -log10(PVal_DirwinHallTable$P_Val)
-	write.table(PVal_DirwinHallTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofTopDatasets),"_ofDatasets.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+	if(!(SuffixofDifferentialExpressionOutput=="")){write.table(PVal_DirwinHallTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofTopDatasets),"_ofDatasets_",as.character(SuffixofDifferentialExpressionOutput),".txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)}
+	if((SuffixofDifferentialExpressionOutput=="")){write.table(PVal_DirwinHallTable, file=paste(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofTopDatasets),"_ofDatasets.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)}
 }
 }
