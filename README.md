@@ -9,11 +9,6 @@ Nakatsuka, N.; Adler, D.; Jiang, L.; Hartman, A.; Cheng, E.; Klann, E.; Satija, 
 **Contact:** Nathan Nakatsuka: 08nanaka@gmail.com
 
 
-Notes:
-<br/>
-The SumRank_code.R document has code for the SumRank algorithm as well as the sex specific analyses.
-
-The UCell_AUC_code.R document has code for obtaining UCell scores from gene sets and using them to test case-control statuses in held out datasets.
 
 
 
@@ -41,4 +36,8 @@ Alternatively, b) use a mixed model differential expression method to control fo
 <br/>
 <br/>
 
+Notes:
+<br/>
+The AdditionalExamplecode.R has code for the merge and sex specific analyses.
 
+The UCell_AUC_code.R document has code for obtaining UCell scores from gene sets and using them to test case-control statuses in held out datasets.
