@@ -10,16 +10,19 @@ for(z in 1:TotalNumberofPermutations){
 write.table(ComparisonTable,"/home/mydirectory/PermutationComparisonTable.txt",sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 
 
-
-CalibratePValueswithPermutations <- function(NumberofPermutations,ComparisonTable){
+# This function returns a table of genes and their calibrated p-values comparing the real data p-values with p-values obtained from Permutations.
+# PVal_DirwinHallTable is the output from the SumRank function.
+# ComparisonTable is a table listing all negativelogpvalues from SumRank done on permutations
+# CommonGenes is a vector of genes held in common with all datasets that can be obtained with the GetCommonGenes function.
+CalibratePValueswithPermutations <- function(CommonGenes,ComparisonTable,PVal_DirwinHallTable){
 	PVal_DirwinHallTable <- read.table(paste(BroadClusterTypes[j],"_COVID_DESeq2_Pseudobulk_All_ControlvsCOVID_DownReg_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top",args[1],"Percentof16Datasets_AllData.txt",sep=""),header=T)
 	FinalTable = data.frame(1:length(CommonGenes))
 	FinalTable[,1]=CommonGenes
 	FinalTable[,2:3]=0
 	ecdf_fun = ecdf(ComparisonTable[,1])
-	FinalTable[,2]=1-sapply(X = PVal_DirwinHallTable[,4], FUN = ecdf_fun)
+	FinalTable[,2]=1-sapply(X = PVal_DirwinHallTable$NegLogPValue, FUN = ecdf_fun)
 	FinalTable[,3]=p.adjust(FinalTable[,2],method="BH")
 	colnames(FinalTable)=c("Gene","PVal","PVal_BH")
-	write.table(FinalTable, file=paste("/gpfs/commons/home/nnakatsuka/COVID/PermutationTests/Mean_SDTables/",BroadClusterTypes[j],"_COVID_DESeq2_Pseudobulk_All_ControlvsCOVID_DownReg_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top",args[1],"Percentof16Datasets_AllData_PermutationThresholdPValues.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+	return(FinalTable)
 }
 
