@@ -49,10 +49,12 @@ for(i in 1:length(Datasets)){
 # Get PresenceofDataTable
 COVID_DatasetNames = c("wilk","arunachalam","lee","wen")
 BroadClusterTypes_COVID = unique(avg_exp_wilk$predicted.celltype.l1_2)
-PresenceofDataTable_COVID = MakePresenceofDataTable(COVID_DatasetNames,BroadClusterTypes)
+PresenceofDataTable_COVID = MakePresenceofDataTable(DatasetNames=COVID_DatasetNames, BroadClusterTypes=BroadClusterTypes_COVID,
+CellTypeLevel="predicted.celltype.l1_2")
 
 # Get common genes
-CommonGenes_COVID = GetCommonGenes(COVID_DatasetNames,"Mono",PresenceofDataTable_COVID)
+CommonGenes_COVID = GetCommonGenes(DatasetNames=COVID_DatasetNames, BroadClusterTypes=BroadClusterTypes_COVID,
+PresenceofDataTable=PresenceofDataTable_COVID)
 
 ProportionofDatasetstoUse = 1.0
 # SumRank
@@ -65,7 +67,8 @@ PermutationNumber=1
 for(i in 1:length(Datasets)){
     currentTest <- get(paste("avg_exp_",Datasets[i],sep=""))
     avg_temp <- subset(currentTest, subset=predicted.celltype.l1_2==ClusterofInterest)
-    avg_temp <- PermuteCaseControl(Datasets[i],avg_temp,PresenceofDataTable_COVID,"predicted.celltype.l1_2",BroadClusterTypes_COVID,"COVID-19","healthy")
+    avg_temp <- PermuteCaseControl(DatasetName=Datasets[i], avg_exp_Dataset=avg_temp, PresenceofDataTable=PresenceofDataTable_COVID,
+CellTypeLevel="predicted.celltype.l1_2", BroadClusterTypes=BroadClusterTypes_COVID, CaseName="COVID-19", ControlName="healthy")
     assign(paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNumber)),avg_temp)
 }
 
@@ -82,6 +85,7 @@ for(i in 1:length(Datasets)){
     write.table(temp10, file=paste(Datasets[i],"_",ClusterofInterest,"_DifferentialExpression_Permutation_",as.character(PermutationNumber),".txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 }
 
+# Do SumRank on the permuted differential expression data.
 SumRank(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID,
 SuffixofDifferentialExpressionOutput=SuffixofDifferentialExpressionOutput=paste0("Permutation",as.character(PermutationNumber)),
 CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutation",as.character(PermutationNumber)))
@@ -99,12 +103,14 @@ write.table(ComparisonTable,"/home/mydirectory/PermutationComparisonTable.txt",s
 # Compare permutation results to the results of real data to calibrate the p-values of the real data.
 setwd("/home/mydirectory")
 PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_UpReg.txt",sep=""),header=T)
-FinalPValues = CalibratePValueswithPermutations(CommonGenes_COVID, ComparisonTable,PVal_DirwinHallTable)
+FinalPValues = CalibratePValueswithPermutations(CommonGenes=CommonGenes_COVID, ComparisonTable=ComparisonTable,
+PVal_DirwinHallTable=PVal_DirwinHallTable)
 write.table(FinalPValues,"/home/mydirectory/FinalPValues_COVID_4Datasets.txt",sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 
 # Plot Manhattan plot
 pdf("ManhattanPlot_COVID4Datasets.txt")
-MakeManhattanPlot(FinalPValues, 3.90, 9, "Manhattan Plot of COVID-19 vs. Healthy SumRank Differential Expression in Monocytes")
+MakeManhattanPlot(CalibratedPValuesTable=FinalPValues, OtherNegLogPValueCutoff=3.90, TopValueCutoff=9,
+Desiredggtitle="Manhattan Plot of COVID-19 vs. Healthy SumRank Differential Expression in Monocytes")
 dev.off()
 ```
 
