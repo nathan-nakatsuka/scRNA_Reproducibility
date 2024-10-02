@@ -1,0 +1,6 @@
+
+MakeComparisonTable <- function(NumberofPermutations){
+
+  }
+
+
