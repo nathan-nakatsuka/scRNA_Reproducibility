@@ -32,6 +32,7 @@ assign(paste0("avg_exp_",Datasets[i]),avg_temp)
 }
 
 # Differential Expression (only doing Monocytes here as an example)
+# Note: This is only 
 # Note: All of these files will be output to the same directory. User can make another directory and output files there if desired.
 ClusterofInterest = "Mono"
 for(i in 1:length(Datasets)){
@@ -42,7 +43,7 @@ for(i in 1:length(Datasets)){
     temp10$Gene = rownames(temp10)
     # Remove all mitochondrial genes.
     temp10 = temp10[!grepl('MT-',temp10$Gene),]
-    write.table(temp10, file=paste(Datasets[i],"_",ClusterofInterest,"_DifferentialExpression.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+    write.table(temp10, file=paste(Datasets[i],"_",ClusterofInterest,"_DifferentialExpression_UpReg.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 }
 
 # Get PresenceofDataTable
@@ -53,8 +54,9 @@ PresenceofDataTable_COVID = MakePresenceofDataTable(COVID_DatasetNames,BroadClus
 # Get common genes
 CommonGenes_COVID = GetCommonGenes(COVID_DatasetNames,"Mono",PresenceofDataTable_COVID)
 
+ProportionofDatasetstoUse = 1.0
 # SumRank
-SumRank(COVID_DatasetNames,BroadClusterTypes_COVID,CommonGenes_COVID,1.0,PresenceofDataTable_COVID,"/home/mydirectory")
+SumRank(COVID_DatasetNames,BroadClusterTypes_COVID,SuffixofDifferentialExpressionOutput="UpReg",CommonGenes_COVID,ProportionofDatasetstoUse,PresenceofDataTable_COVID,"/home/mydirectory")
 
 # Do Permutations
 # Note: it is ideal to do this on a cluster in parallel.
@@ -80,9 +82,22 @@ for(i in 1:length(Datasets)){
     write.table(temp10, file=paste(Datasets[i],"_",ClusterofInterest,"_DifferentialExpression_Permutation_",as.character(PermutationNumber),".txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 }
 
-SumRank(COVID_DatasetNames,BroadClusterTypes_COVID,SuffixofDifferentialExpressionOutput=paste0("Permutation",as.character(PermutationNumber)),CommonGenes_COVID,1.0,PresenceofDataTable_COVID,paste0("/home/mydirectory/Permutation",as.character(PermutationNumber)))
+SumRank(COVID_DatasetNames,BroadClusterTypes_COVID,SuffixofDifferentialExpressionOutput=paste0("Permutation",as.character(PermutationNumber)),CommonGenes_COVID,ProportionofDatasetstoUse,PresenceofDataTable_COVID,paste0("/home/mydirectory/Permutation",as.character(PermutationNumber)))
 
-# Combine the permutation results and compare to the results of real data to calibrate the p-values of the real data.
+# Combine the permutation results
+TotalNumberofPermutations = 100
+ComparisonTable = data.frame(1:TotalNumberofPermutations)
+for(z in 1:TotalNumberofPermutations){
+    setwd(paste0("/home/mydirectory/Permutation",as.character(PermutationNumber)))
+    PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation",as.character(z),".txt",sep=""),header=T)
+    ComparisonTable[((z-1)*length(CommonGenes)+1):(z*length(CommonGenes)),1] = PVal_DirwinHallTable$NegLogPValue
+}
+write.table(ComparisonTable,"/home/mydirectory/PermutationComparisonTable.txt",sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 
+# Compare permutation results to the results of real data to calibrate the p-values of the real data.
+setwd("/home/mydirectory")
+PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_UpReg.txt",sep=""),header=T)
+FinalPValues = CalibratePValueswithPermutations(CommonGenes_COVID, ComparisonTable,PVal_DirwinHallTable)
+write.table(FinalPValues,"/home/mydirectory/FinalPValues_COVID_4Datasets.txt",sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 ```
 
