@@ -20,10 +20,10 @@ The UCell_AUC_code.R document has code for obtaining UCell scores from gene sets
 ## <p>Steps for use:</p>
 
 **Preprocessing steps:**
-1) Perform QC and determine cell type of each cell (e.g. by mapping to an atlas).<br/>
-2) Perform differential expression on each cell type in each dataset.:<br/>
+1) Perform QC and determine cell type of each cell (e.g. by mapping to an atlas). The MappingtoAzimuthReference.R code can be used for this.<br/>
+2) Perform differential expression on each cell type in each dataset:<br/>
 Alternatives: <br/>
-a) Perform pseudobulking per individual and per cell type if using a bulk RNA-sequencing differential expression method (e.g. DESeq2).  <br/>
+a) Perform pseudobulking per individual and per cell type if using a bulk RNA-sequencing differential expression method (e.g. DESeq2). The PseudoBulking.R code can be used for this. <br/>
 Alternatively, b) use a mixed model differential expression method to control for within individual correlation of gene expression.<br/>
 -Important note: when doing differential expression, you must output ALL genes (i.e. do NOT impose any threshold cutoffs), because SumRank is dependent on the relative ranks of all genes in all datasets.<br/>
 <br/>
