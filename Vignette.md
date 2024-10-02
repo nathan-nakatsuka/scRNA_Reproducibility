@@ -11,7 +11,7 @@
 5) Use the permutations to calibrate the p-values of the real data.<br/>
 6) Plot the results.<br/> 
 ```
-# Load in the following functions that can be found in PseudoBulking.R and SumRank.R code: AverageMetaData, PseudobulkSeuratObject_Aggregate, GetCommonGenes, SumRank, MakePresenceofDataTable, PermuteCaseControl, CalibratePValueswithPermutations
+# Read in the following functions that can be found in PseudoBulking.R, SumRank.R, CalibratePValueswithPermutations.R, MakePresenceofDataTable.R, and MakingManhattanPlot.R code: AverageMetaData, PseudobulkSeuratObject_Aggregate, GetCommonGenes, SumRank, MakePresenceofDataTable, PermuteCaseControl, CalibratePValueswithPermutations, MakeManhattanPlot
 
 library(Seurat)
 library(DESeq2)
@@ -56,7 +56,7 @@ CommonGenes_COVID = GetCommonGenes(COVID_DatasetNames,"Mono",PresenceofDataTable
 
 ProportionofDatasetstoUse = 1.0
 # SumRank
-SumRank(COVID_DatasetNames,BroadClusterTypes_COVID,SuffixofDifferentialExpressionOutput="UpReg",CommonGenes_COVID,ProportionofDatasetstoUse,PresenceofDataTable_COVID,"/home/mydirectory")
+SumRank(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID, SuffixofDifferentialExpressionOutput="UpReg", CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory="/home/mydirectory")
 
 # Do Permutations
 # Note: it is ideal to do this on a cluster in parallel.
@@ -82,7 +82,9 @@ for(i in 1:length(Datasets)){
     write.table(temp10, file=paste(Datasets[i],"_",ClusterofInterest,"_DifferentialExpression_Permutation_",as.character(PermutationNumber),".txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 }
 
-SumRank(COVID_DatasetNames,BroadClusterTypes_COVID,SuffixofDifferentialExpressionOutput=paste0("Permutation",as.character(PermutationNumber)),CommonGenes_COVID,ProportionofDatasetstoUse,PresenceofDataTable_COVID,paste0("/home/mydirectory/Permutation",as.character(PermutationNumber)))
+SumRank(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID,
+SuffixofDifferentialExpressionOutput=SuffixofDifferentialExpressionOutput=paste0("Permutation",as.character(PermutationNumber)),
+CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutation",as.character(PermutationNumber)))
 
 # Combine the permutation results
 TotalNumberofPermutations = 100
