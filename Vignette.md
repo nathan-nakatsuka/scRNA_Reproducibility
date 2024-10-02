@@ -99,5 +99,10 @@ setwd("/home/mydirectory")
 PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_UpReg.txt",sep=""),header=T)
 FinalPValues = CalibratePValueswithPermutations(CommonGenes_COVID, ComparisonTable,PVal_DirwinHallTable)
 write.table(FinalPValues,"/home/mydirectory/FinalPValues_COVID_4Datasets.txt",sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+
+# Plot Manhattan plot
+pdf("ManhattanPlot_COVID4Datasets.txt")
+MakeManhattanPlot(FinalPValues, 3.90, 9, "Manhattan Plot of COVID-19 vs. Healthy SumRank Differential Expression in Monocytes")
+dev.off()
 ```
 
