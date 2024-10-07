@@ -156,3 +156,45 @@ for(j in 1:length(BroadClusterTypes)){
 
 ## Follow the vignette examples to calibrate p-values by permutations
 
+
+
+
+
+
+
+
+
+
+## Inverse Variance meta-analysis example code. The DESeq2_Pseudobulk_DifferentialExpression_withse_summarized.txt file has standard errors from DESeq2.
+FinalTable = data.frame(1:length(CommonGenes))
+FinalTable[,1]=CommonGenes
+FinalTable[,2]=0
+FinalTable[,3]=0
+colnames(FinalTable)=c("Gene","PVal","EffectSize")
+  
+GeneofInterest_Test = data.frame(1:length(Datasets))
+GeneofInterest_Test[,1]=CurrentDatasets
+GeneofInterest_Test[,2:3]=0
+colnames(GeneofInterest_Test)=c("Dataset","StdError_EffectSize","StdError_StdError")
+AllGenesAllDatasets=data.frame(1:length(CommonGenes))
+for(i in 1:length(Datasets)){
+	currentTest <- read.table(paste(Datasets[i],"_",BroadClusterTypes[j],"_DESeq2_Pseudobulk_DifferentialExpression_withse_summarized.txt",sep=""),header=T)
+	AllGenesAllDatasets=cbind(AllGenesAllDatasets,currentTest)
+  	}
+AllGenesAllDatasets=AllGenesAllDatasets[,-1]
+## Loop through each gene
+for(k in 1:length(CommonGenes)){
+	for(i in 1:length(CurrentDatasets)){
+		z=i-1
+      		GeneofInterest_Test[i,2]=AllGenesAllDatasets[k,((z*2)+1)]
+      		GeneofInterest_Test[i,3]=AllGenesAllDatasets[k,((z*2)+2)]
+    	}
+	GeneofInterest_Test$EffectMinusError = GeneofInterest_Test$StdError_EffectSize-GeneofInterest_Test$StdError_StdError
+	GeneofInterest_Test2=GeneofInterest_Test[order(GeneofInterest_Test$EffectMinusError,decreasing=TRUE),][1:(1.00*length(CurrentDatasets)),]
+	m.gen <- metagen(TE=StdError_EffectSize, seTE = StdError_StdError, studlab = Dataset, data=GeneofInterest_Test2, sm = "OR", fixed=FALSE, random=TRUE, method.tau="REML",hakn=TRUE,control=list(stepadj=0.1,maxiter = 10000))
+	FinalTable[k,2]=m.gen$pval.random
+	FinalTable[k,3]=m.gen$TE.random
+  }
+# This is a table with the meta-analysis p-values for each gene.
+write.table(FinalTable, file=paste(BroadClusterTypes[j],"_DESeq2_Pseudobulk_All_DifferentialExpression_InvVariance_metaanalysis.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+
