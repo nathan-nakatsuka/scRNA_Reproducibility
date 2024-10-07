@@ -27,7 +27,7 @@ assign(paste0(Datasets[i],"_Seurat"),temp)
 
 # Do pseudobulking
 for(i in 1:length(Datasets)){
-temp = get(paste0(Datasets[i],"_Seurat))
+temp = get(paste0(Datasets[i],"_Seurat"))
 avg_temp = PseudobulkSeuratObject_Aggregate(temp, "predicted.celltype.l1_2")
 assign(paste0("avg_exp_",Datasets[i]),avg_temp)
 }
