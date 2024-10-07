@@ -1,7 +1,8 @@
 library(unifed)
 
-# This code requires the user to have files named DatasetName_CellType_DifferentialExpression.txt in the directory
+# This code requires the user to have files named DatasetName_CellType_DifferentialExpression_UpReg.txt in the directory
 # DatasetNames is a vector of strings of dataset names. BroadClusterTypes is a vector of cell types. PresenceofDataTable is a table detailing whether a cell type has data for each cell type.
+# CellTypeIndexwithNoMissing is the cell type that you want to use for defining number of genes (if not used as an argument the first cell type that has no missing data will be used).
 # This function will output a vector of genes held in common with all datasets.
 GetCommonGenes <- function(DatasetNames,BroadClusterTypes,PresenceofDataTable,CellTypeIndexwithNoMissing="NA"){
   #Find a cell type with no missing data.
