@@ -15,13 +15,14 @@
 
 library(Seurat)
 library(DESeq2)
+library(SeuratDisk)
 
 # Load in datasets
 Datasets= c("wilk", "arunachalam", "lee", "wen")
 for(i in 1:length(Datasets)){
 temp = LoadH5Seurat(paste0(Datasets[i],"_2020_processed.HDF5"))
 temp$predicted.celltype.l1_2 <- sub(" ", "_", temp$predicted.celltype.l1)
-assign(paste0(Datasets[i],"_Seurat),temp)
+assign(paste0(Datasets[i],"_Seurat"),temp)
 }
 
 # Do pseudobulking
