@@ -66,6 +66,7 @@ SumRank(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes
 # Do Permutations
 # Note: it is ideal to do this on a cluster in parallel.
 # Do each of these 500-1000 times with different names.
+setwd("/home/mydirectory/Permutations")
 PermutationNumber=1
 for(i in 1:length(Datasets)){
     currentTest <- get(paste("avg_exp_",Datasets[i],sep=""))
@@ -75,7 +76,6 @@ CellTypeLevel="predicted.celltype.l1_2", BroadClusterTypes="Mono", CaseName="COV
     assign(paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNumber)),avg_temp)
 }
 
-# To organize, if you have many cell types, you can make directories entitled something like "/home/mydirectory/Permutation1" (and Permutation2 through Permutation100), but here we do not do that
 # Do Differential expression on permutations
 for(i in 1:length(Datasets)){
     currentTest <- get(paste("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNumber),sep=""))
@@ -90,8 +90,8 @@ for(i in 1:length(Datasets)){
 
 # Do SumRank on the permuted differential expression data.
 SumRank(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID,
-SuffixofDifferentialExpressionOutput=SuffixofDifferentialExpressionOutput=paste0("Permutation",as.character(PermutationNumber)),
-CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/"))
+SuffixofDifferentialExpressionOutput=paste0("Permutation_",as.character(PermutationNumber)),
+CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutations"))
 
 # Combine the permutation results
 TotalNumberofPermutations = 100
