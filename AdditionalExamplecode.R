@@ -5,6 +5,7 @@ library(SeuratData)
 library(presto)
 library(car)
 
+# Note: the code below can be adapted to study sex interaction and to get the sex specific SumRank.
 #### Merge code
 Datasets = c("Mathys","Grubman","Lau","Morabito","Zhou","Leng_EC","OteroGarcia","YangCortex","Gerrits_OTC","Smith_EC","Sadick","Barker","Sayed","SeaAD","Hoffman","Fujita","MathysCell2023")
 BroadClusterTypes = c("Oligodendrocytes","Astrocytes","Oligodendrocyte_Precursor_Cell","Glut_ExcitatoryNeuron","Endothelial_Cell","GABA_InhibitoryNeuron","Microglia")
