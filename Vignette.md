@@ -55,7 +55,7 @@ CellTypeLevel="predicted.celltype.l1_2")
 
 # Get common genes
 CommonGenes_COVID = GetCommonGenes(DatasetNames=COVID_DatasetNames, BroadClusterTypes=BroadClusterTypes_COVID,
-PresenceofDataTable=PresenceofDataTable_COVID)
+                                   PresenceofDataTable=PresenceofDataTable_COVID,CellTypeIndexwithNoMissing = "Mono")
 
 ProportionofDatasetstoUse = 1.0
 # SumRank
