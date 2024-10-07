@@ -1,11 +1,11 @@
-### This script gets the UCell scores for each individual dataset.
+### This script can be adapted to get the UCell scores for each individual dataset.
 library(Seurat)
 library(dplyr)
 library(UCell)
 
 
 #### Obtaining meta-data
-Datasets = c("Mathys","Grubman","Lau","Morabito","Zhou","Leng_EC","Leng_SFG","OteroGarcia","Yang1","Yang2","Gerrits_OC","Gerrits_OTC","Smith_SSC","Smith_EC","Sadick","Gabitto_SeaAD","Barker","Sayed","Hoffman","Fujita")
+Datasets = c("Mathys","Grubman","Lau","Morabito")
 BroadClusterTypes = c("Oligodendrocytes","Astrocytes","Oligodendrocyte_Precursor_Cell","Glut_ExcitatoryNeuron","Endothelial_Cell","GABA_InhibitoryNeuron","Microglia")
 for(i in 1:length(Datasets)){
   PatientMetaData=read.table(paste(Datasets[i],"_Metadata_byIndividual.txt",sep=""),header=T)
