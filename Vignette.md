@@ -71,7 +71,7 @@ for(i in 1:length(Datasets)){
     currentTest <- get(paste("avg_exp_",Datasets[i],sep=""))
     avg_temp <- subset(currentTest, subset=predicted.celltype.l1_2==ClusterofInterest)
     avg_temp <- PermuteCaseControl(DatasetName=Datasets[i], avg_exp_Dataset=avg_temp, PresenceofDataTable=PresenceofDataTable_COVID,
-CellTypeLevel="predicted.celltype.l1_2", BroadClusterTypes=BroadClusterTypes_COVID, CaseName="COVID-19", ControlName="healthy")
+CellTypeLevel="predicted.celltype.l1_2", BroadClusterTypes="Mono", CaseName="COVID-19", ControlName="healthy")
     assign(paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNumber)),avg_temp)
 }
 
