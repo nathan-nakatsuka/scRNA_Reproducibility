@@ -1,6 +1,6 @@
 # SumRank
 
-These are the relevant scripts for the following manuscript:
+These are the relevant scripts for the SumRank software and additional scripts for the following manuscript:
 
 **Citation:** 
 <br/>
