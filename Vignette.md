@@ -64,10 +64,10 @@ setwd("/home/mydirectory")
 SumRank(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID, SuffixofDifferentialExpressionOutput="UpReg", CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory="/home/mydirectory")
 
 # Do Permutations
-# Note: it is ideal to do this on a cluster in parallel.
-# Do each of these 500-1000 times with different names.
+# Note: The code below is extremely slow due to the long amount of time it takes to run differential expression on the datasets 1000 times. If possible, it is ideal if you run this code in parallel (i.e. instead of doing the loop of z=1:1000, run each permutation (or sets of 10-100) independently on a cluster, which will make this much faster).
 setwd("/home/mydirectory/Permutations")
-PermutationNumber=1
+for(z in 1:1000){
+PermutationNumber=z
 for(i in 1:length(Datasets)){
     currentTest <- get(paste("avg_exp_",Datasets[i],sep=""))
     avg_temp <- subset(currentTest, subset=predicted.celltype.l1_2==ClusterofInterest)
@@ -92,13 +92,18 @@ for(i in 1:length(Datasets)){
 SumRank(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID,
 SuffixofDifferentialExpressionOutput=paste0("Permutation_",as.character(PermutationNumber)),
 CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutations"))
+for(i in 1:length(Datasets)){
+rm(list=paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNumber)))
+}
+}
 
 # Combine the permutation results
-TotalNumberofPermutations = 100
+setwd("/home/mydirectory/Permutations")
+TotalNumberofPermutations = 1000
 ComparisonTable = data.frame(1:TotalNumberofPermutations)
 for(z in 1:TotalNumberofPermutations){
-    PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation",as.character(z),".txt",sep=""),header=T)
-    ComparisonTable[((z-1)*length(CommonGenes)+1):(z*length(CommonGenes)),1] = PVal_DirwinHallTable$NegLogPValue
+    PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation_",as.character(z),".txt",sep=""),header=T)
+    ComparisonTable[((z-1)*length(CommonGenes_COVID)+1):(z*length(CommonGenes_COVID)),1] = PVal_DirwinHallTable$NegLogPValue
 }
 write.table(ComparisonTable,"/home/mydirectory/PermutationComparisonTable.txt",sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 
