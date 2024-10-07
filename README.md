@@ -39,6 +39,6 @@ See Vignette.md for example of how to run the code.
 
 Notes:
 <br/>
-The AdditionalExamplecode.R has code for the merge and sex specific analyses.
+The AdditionalExamplecode.R has code for the merge, inverse variance, and sex specific analyses.
 
 The UCell_AUC_code.R document has code for obtaining UCell scores from gene sets and using them to test case-control statuses in held out datasets.
