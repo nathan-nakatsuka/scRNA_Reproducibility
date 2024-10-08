@@ -36,7 +36,7 @@ setwd("/home/mydirectory")
 # Differential Expression (only doing Monocytes here as an example)
 # Note: This is only for up-regulated genes (for down-regulated genes, just switch the COVID-19 to ident.2 and the healthy to ident.1).
 # Note: All of these files will be output to the same directory. User can make another directory and output files there if desired.
-ClusterofInterest = "Mono"
+ClusterofInterest = "CD4_T"
 for(i in 1:length(Datasets)){
     currentTest <- get(paste("avg_exp_",Datasets[i],sep=""))
     avg_temp <- subset(currentTest, subset=predicted.celltype.l1_2==ClusterofInterest)
@@ -56,7 +56,7 @@ CellTypeLevel="predicted.celltype.l1_2")
 
 # Get common genes
 CommonGenes_COVID = GetCommonGenes(DatasetNames=COVID_DatasetNames, BroadClusterTypes=BroadClusterTypes_COVID,
-                                   PresenceofDataTable=PresenceofDataTable_COVID,CellTypeIndexwithNoMissing = "Mono")
+                                   PresenceofDataTable=PresenceofDataTable_COVID,CellTypeIndexwithNoMissing = "CD4_T")
 
 ProportionofDatasetstoUse = 1.0
 # SumRank
@@ -73,7 +73,7 @@ for(i in 1:length(Datasets)){
     currentTest <- get(paste("avg_exp_",Datasets[i],sep=""))
     avg_temp <- subset(currentTest, subset=predicted.celltype.l1_2==ClusterofInterest)
     avg_temp <- PermuteCaseControl(DatasetName=Datasets[i], avg_exp_Dataset=avg_temp, PresenceofDataTable=PresenceofDataTable_COVID,
-CellTypeLevel="predicted.celltype.l1_2", BroadClusterTypes="Mono", CaseName="COVID-19", ControlName="healthy")
+CellTypeLevel="predicted.celltype.l1_2", BroadClusterTypes="CD4_T", CaseName="COVID-19", ControlName="healthy")
     assign(paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNumber)),avg_temp)
 }
 
@@ -107,18 +107,19 @@ for(z in 1:TotalNumberofPermutations){
     ComparisonTable[((z-1)*length(CommonGenes_COVID)+1):(z*length(CommonGenes_COVID)),1] = PVal_DirwinHallTable$NegLogPValue
 }
 setwd("/home/mydirectory")
-write.table(ComparisonTable,"/home/mydirectory/PermutationComparisonTable.txt",sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+write.table(ComparisonTable,paste0("/home/mydirectory/PermutationComparisonTable_",ClusterofInterest,".txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 
 # Compare permutation results to the results of real data to calibrate the p-values of the real data.
 PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_UpReg.txt",sep=""),header=T)
 FinalPValues = CalibratePValueswithPermutations(CommonGenes=CommonGenes_COVID, ComparisonTable=ComparisonTable,
 PVal_DirwinHallTable=PVal_DirwinHallTable)
-write.table(FinalPValues,"/home/mydirectory/FinalPValues_COVID_4Datasets.txt",sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+write.table(FinalPValues,paste0("/home/mydirectory/FinalPValues_COVID_4Datasets_",ClusterofInterest,".txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 
 # Plot Manhattan plot
-pdf("ManhattanPlot_COVID4Datasets.txt")
-MakeManhattanPlot(CalibratedPValuesTable=FinalPValues, OtherNegLogPValueCutoff=3.90, TopValueCutoff=9,
-Desiredggtitle="Manhattan Plot of COVID-19 vs. Healthy SumRank Differential Expression in Monocytes")
+pdf(paste0("ManhattanPlot_COVID4Datasets_",ClusterofInterest,".txt"))
+MakeManhattanPlot(CalibratedPValuesTable=FinalPValues, OtherNegLogPValueCutoff=3, TopValueCutoff=9,
+                  Desiredggtitle="Manhattan Plot of COVID-19 vs. Healthy SumRank Differential Expression in CD4 T Cells",jitter_amount=2.5)
 dev.off()
 ```
+[ManhattanPlot_COVID4Datasets_CD4_T.pdf](https://github.com/user-attachments/files/17297819/ManhattanPlot_COVID4Datasets_CD4_T.pdf)
 
