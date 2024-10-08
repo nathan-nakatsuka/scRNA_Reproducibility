@@ -121,5 +121,8 @@ MakeManhattanPlot(CalibratedPValuesTable=FinalPValues, OtherNegLogPValueCutoff=3
                   Desiredggtitle="Manhattan Plot of COVID-19 vs. Healthy SumRank Differential Expression in CD4 T Cells",jitter_amount=2.5)
 dev.off()
 ```
+
+![image](https://github.com/user-attachments/assets/4c762f06-5d30-480f-810b-4fc96a687cff)
+
 [ManhattanPlot_COVID4Datasets_CD4_T.pdf](https://github.com/user-attachments/files/17297819/ManhattanPlot_COVID4Datasets_CD4_T.pdf)
 
