@@ -116,6 +116,7 @@ PVal_DirwinHallTable=PVal_DirwinHallTable)
 write.table(FinalPValues,paste0("/home/mydirectory/FinalPValues_COVID_4Datasets_",ClusterofInterest,".txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 
 # Plot Manhattan plot
+# Note: this is not as good as the results with 16 datasets but with 4 datasets some of the patterns are still clear.
 pdf(paste0("ManhattanPlot_COVID4Datasets_",ClusterofInterest,".txt"))
 MakeManhattanPlot(CalibratedPValuesTable=FinalPValues, OtherNegLogPValueCutoff=3, TopValueCutoff=9,
                   Desiredggtitle="Manhattan Plot of COVID-19 vs. Healthy SumRank Differential Expression in CD4 T Cells",jitter_amount=2.5)
