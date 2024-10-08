@@ -101,9 +101,9 @@ rm(list=paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNum
 # Combine the permutation results
 setwd("/home/mydirectory/Permutations")
 TotalNumberofPermutations = 1000
-ComparisonTable = data.frame(1:TotalNumberofPermutations)
+ComparisonTable = data.frame(1:(TotalNumberofPermutations*length(CommonGenes_COVID)))
 for(z in 1:TotalNumberofPermutations){
-    PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation_",as.character(z),".txt",sep=""),header=T)
+    PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation_",as.character(z),".txt",sep=""),header=T)
     ComparisonTable[((z-1)*length(CommonGenes_COVID)+1):(z*length(CommonGenes_COVID)),1] = PVal_DirwinHallTable$NegLogPValue
 }
 write.table(ComparisonTable,"/home/mydirectory/PermutationComparisonTable.txt",sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
