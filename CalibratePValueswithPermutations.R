@@ -1,13 +1,12 @@
 # Code like this can be used to combine the permutation results.
 # Combine the permutation results
-TotalNumberofPermutations = 100
-ComparisonTable = data.frame(1:TotalNumberofPermutations)
+TotalNumberofPermutations = 1000
+ComparisonTable = data.frame(1:(TotalNumberofPermutations*length(CommonGenes_COVID)))
 for(z in 1:TotalNumberofPermutations){
-    setwd(paste0("/home/mydirectory/Permutation",as.character(PermutationNumber)))
-    PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation",as.character(z),".txt",sep=""),header=T)
-    ComparisonTable[((z-1)*length(CommonGenes)+1):(z*length(CommonGenes)),1] = PVal_DirwinHallTable$NegLogPValue
+  PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation_",as.character(z),".txt",sep=""),header=T)
+  ComparisonTable[((z-1)*length(CommonGenes_COVID)+1):(z*length(CommonGenes_COVID)),1] = PVal_DirwinHallTable$NegLogPValue
 }
-write.table(ComparisonTable,"/home/mydirectory/PermutationComparisonTable.txt",sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
+write.table(ComparisonTable,paste0("PermutationComparisonTable_",ClusterofInterest,".txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 
 
 # This function returns a table of genes and their calibrated p-values comparing the real data p-values with p-values obtained from Permutations.
@@ -24,4 +23,3 @@ CalibratePValueswithPermutations <- function(CommonGenes,ComparisonTable,PVal_Di
 	colnames(FinalTable)=c("Gene","PVal","PVal_BH")
 	return(FinalTable)
 }
-
