@@ -15,7 +15,6 @@ write.table(ComparisonTable,"/home/mydirectory/PermutationComparisonTable.txt",s
 # ComparisonTable is a table listing all negativelogpvalues from SumRank done on permutations
 # CommonGenes is a vector of genes held in common with all datasets that can be obtained with the GetCommonGenes function.
 CalibratePValueswithPermutations <- function(CommonGenes,ComparisonTable,PVal_DirwinHallTable){
-	PVal_DirwinHallTable <- read.table(paste(BroadClusterTypes[j],"_COVID_DESeq2_Pseudobulk_All_ControlvsCOVID_DownReg_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top",args[1],"Percentof16Datasets_AllData.txt",sep=""),header=T)
 	FinalTable = data.frame(1:length(CommonGenes))
 	FinalTable[,1]=CommonGenes
 	FinalTable[,2:3]=0
