@@ -106,10 +106,10 @@ for(z in 1:TotalNumberofPermutations){
     PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation_",as.character(z),".txt",sep=""),header=T)
     ComparisonTable[((z-1)*length(CommonGenes_COVID)+1):(z*length(CommonGenes_COVID)),1] = PVal_DirwinHallTable$NegLogPValue
 }
+setwd("/home/mydirectory")
 write.table(ComparisonTable,"/home/mydirectory/PermutationComparisonTable.txt",sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 
 # Compare permutation results to the results of real data to calibrate the p-values of the real data.
-setwd("/home/mydirectory")
 PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_UpReg.txt",sep=""),header=T)
 FinalPValues = CalibratePValueswithPermutations(CommonGenes=CommonGenes_COVID, ComparisonTable=ComparisonTable,
 PVal_DirwinHallTable=PVal_DirwinHallTable)
