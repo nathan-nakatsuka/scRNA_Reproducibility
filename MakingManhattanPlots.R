@@ -1,4 +1,4 @@
-# Produced a Manhattan plot from 
+# Produces a Manhattan plot from calibrated p-values ordered by genes alphabetically.
 # CalibratedPValuesTable is a table of genes and their calibrated p-values comparing the real data p-values with p-values obtained from Permutations that can be obtained from the CalibratePValueswithPermutations function.
 # OtherNegLogPValueCutoff is a cutoff that can be used that is usually lower than the significant value threshold (this can be obtained by cross-validation to see what maximized reproducibility).
 # TopValueCutoff is the top negative log10 p-value allowed (values of infinite, which is obtained if the value is above that of every permutation value, will be set to this for plotting purposes).
