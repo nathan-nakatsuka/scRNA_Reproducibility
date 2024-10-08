@@ -16,6 +16,7 @@
 library(Seurat)
 library(DESeq2)
 library(SeuratDisk)
+library(unifed)
 
 # Load in datasets
 Datasets= c("wilk", "arunachalam", "lee", "wen")
