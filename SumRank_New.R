@@ -93,7 +93,7 @@ for(j in 1:length(BroadClusterTypes)){
 
 #### Step 4: Get p-values for each gene by Irwin Hall distribution
 for(j in 1:length(BroadClusterTypes)){
-  SumRankTable <- get(paste0(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",as.character(ProportionofTopDatasets),"_ofDatasets"))
+	SumRankTable <- get(paste0(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_Top_",as.character(ProportionofTopDatasets),"_ofDatasets"))
 	PVal_DirwinHallTable=data.frame(1:length(CommonGenes))
 	PVal_DirwinHallTable[,1]=CommonGenes[order(as.character(CommonGenes))]
 	#### If the sum rank is greater than half, you need to set it to half so it won't be considered significant.
