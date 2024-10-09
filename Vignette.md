@@ -123,9 +123,12 @@ pdf(paste0("ManhattanPlot_COVID4Datasets_",ClusterofInterest,".txt"))
 MakeManhattanPlot(CalibratedPValuesTable=FinalPValues, OtherNegLogPValueCutoff=3, TopValueCutoff=9,
                   Desiredggtitle="Manhattan Plot of COVID-19 vs. Healthy SumRank Differential Expression in CD4 T Cells",jitter_amount=2.5)
 dev.off()
+
+## Note: Below we also include results of CD14 Monocytes as an example of a predicted.celltype.l2 cell type.
 ```
 
 ![image](https://github.com/user-attachments/assets/4c762f06-5d30-480f-810b-4fc96a687cff)
+![image](https://github.com/user-attachments/assets/23d8b44c-4299-4179-b15d-1b2134e1b02c)
 
 [ManhattanPlot_COVID4Datasets_CD4_T.pdf](https://github.com/user-attachments/files/17297819/ManhattanPlot_COVID4Datasets_CD4_T.pdf)
 
