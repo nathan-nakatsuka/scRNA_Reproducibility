@@ -128,7 +128,8 @@ dev.off()
 ```
 
 ![image](https://github.com/user-attachments/assets/4c762f06-5d30-480f-810b-4fc96a687cff)
-![image](https://github.com/user-attachments/assets/23d8b44c-4299-4179-b15d-1b2134e1b02c)
 
 [ManhattanPlot_COVID4Datasets_CD4_T.pdf](https://github.com/user-attachments/files/17297819/ManhattanPlot_COVID4Datasets_CD4_T.pdf)
+
+![image](https://github.com/user-attachments/assets/23d8b44c-4299-4179-b15d-1b2134e1b02c)
 
