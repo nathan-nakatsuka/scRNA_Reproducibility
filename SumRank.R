@@ -20,8 +20,8 @@ GetCommonGenes <- function(DatasetNames,BroadClusterTypes,PresenceofDataTable,Ce
 
 # DatasetNames is a vector of strings of dataset names. BroadClusterTypes is a vector of cell types. CommonGenes is a vector of genes held in common with all datasets.
 # PresenceofDataTable is a table detailing whether a cell type has data for each cell type.
-# This code requires the user to have files named DatasetName_CellType_DifferentialExpression.txt in the directory
-# SuffixofDifferentialExpressionOutput is 
+# This code requires the user to have files named DatasetName_CellType_DifferentialExpression_SuffixofDifferentialExpressionOutput.txt in the directory
+# SuffixofDifferentialExpressionOutput is the end of the name you gave your differential expression file (e.g. "UpReg").
 # This function will output multiple files including CellType_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_ProportionofTopDatasets_ofDatasets.txt, which includes p-values for all genes based on their reproducibility.
 SumRank <- function(DatasetNames,BroadClusterTypes,SuffixofDifferentialExpressionOutput="",CommonGenes,ProportionofTopDatasets,PresenceofDataTable,directory){
 #### Step 1: Rank by Signed NegLog p-value
