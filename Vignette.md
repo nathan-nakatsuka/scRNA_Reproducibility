@@ -137,3 +137,38 @@ dev.off()
 [ManhattanPlot_COVID4Datasets_CD14_Mono.pdf](https://github.com/user-attachments/files/17333483/ManhattanPlot_COVID4Datasets_CD14_Mono.pdf)
 
 
+```
+## This is to create expression plots
+# Read in the following functions that can be found in PseudoBulking.R, MakeDatasetNumberTable.R, MakeExpressionFigure.R code: PseudobulkSeuratObject_Mean, MakeDatasetNumberTable, MakeExpressionFigure
+
+library(ggplot2)
+
+# Do pseudobulking by mean
+Datasets= c("wilk", "arunachalam", "lee", "wen")
+for(i in 1:length(Datasets)){
+  temp = get(paste0(Datasets[i],"_Seurat"))
+  avg_temp = PseudobulkSeuratObject_Mean(temp, "predicted.celltype.l1_2")
+  assign(paste0("avg_exp_Mean_",Datasets[i]),avg_temp)
+}
+
+Datasets= c("wilk", "arunachalam", "lee", "wen")
+COVID_DatasetNumbers = MakeDatasetNumberTable(Datasets=Datasets,CaseName="COVID-19",ControlName="healthy")
+
+CellTypeLevel="predicted.celltype.l1_2"
+CaseName="COVID-19"
+ControlName="healthy"
+GeneofInterest="PLSCR1"
+ClusterofInterest = "CD4_T"
+Datasets= c("wilk", "arunachalam", "lee", "wen")
+
+pdf(paste0(GeneofInterest,"_",ClusterofInterest,"_Expression_std_dev.pdf"))
+figure = MakeExpressionFigure(Datasets=Datasets,CellTypeLevel=CellTypeLevel,CaseName=CaseName,ControlName=ControlName,GeneofInterest=GeneofInterest,CellType=ClusterofInterest,DatasetNumbersTable=COVID_DatasetNumbers)
+figure
+dev.off()
+```
+![image](https://github.com/user-attachments/assets/31d9a348-e5e4-4ea3-9985-20dbce0f68db)
+
+[PLSCR1_CD4_T_Expression_std_dev.pdf](https://github.com/user-attachments/files/17334408/PLSCR1_CD4_T_Expression_std_dev.pdf)
+
+
+
