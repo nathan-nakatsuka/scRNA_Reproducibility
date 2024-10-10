@@ -119,19 +119,21 @@ write.table(FinalPValues,paste0("/home/mydirectory/FinalPValues_COVID_4Datasets_
 # Plot Manhattan plot
 # Note: this is not as good as the results with 16 datasets but with 4 datasets some of the patterns are still clear.
 # Note: the significant genes in this plot were jittered substantially so they would be more clear, but they all had infinite -log10(p-value)s. The jitter's randomness makes it such that the top points in the figure generated will look different each time it is made (feel free to decrease the jitter_amount to decrease the variation).
-pdf(paste0("ManhattanPlot_COVID4Datasets_",ClusterofInterest,".txt"))
+pdf(paste0("ManhattanPlot_COVID4Datasets_",ClusterofInterest,".pdf"))
 MakeManhattanPlot(CalibratedPValuesTable=FinalPValues, OtherNegLogPValueCutoff=3, TopValueCutoff=9,
-                  Desiredggtitle="Manhattan Plot of COVID-19 vs. Healthy SumRank Differential Expression in CD4 T Cells",jitter_amount=2.5)
+                  Desiredggtitle="Manhattan Plot of COVID-19 vs. Healthy SumRank Differential Expression in Monocytes",jitter_amount=0.7,pointsize=0.3,textsize=0.3)
 dev.off()
 
 ## Note: Below we also include results of CD14 Monocytes as an example of a predicted.celltype.l2 cell type.
 ```
 
-![image](https://github.com/user-attachments/assets/4c762f06-5d30-480f-810b-4fc96a687cff)
+![image](https://github.com/user-attachments/assets/ade374c6-3619-4a0b-b2c3-f608d04e34b1)
 
-[ManhattanPlot_COVID4Datasets_CD4_T.pdf](https://github.com/user-attachments/files/17297819/ManhattanPlot_COVID4Datasets_CD4_T.pdf)
+[ManhattanPlot_COVID4Datasets_CD4_T.pdf](https://github.com/user-attachments/files/17333627/ManhattanPlot_COVID4Datasets_CD4_T.pdf)
 
-![image](https://github.com/user-attachments/assets/23d8b44c-4299-4179-b15d-1b2134e1b02c)
 
-[ManhattanPlot_COVID4Datasets_CD14_Mono.pdf](https://github.com/user-attachments/files/17311432/ManhattanPlot_COVID4Datasets_CD14_Mono.pdf)
+![image](https://github.com/user-attachments/assets/5d23a0d5-baed-4054-9566-b5024d0a1631)
+
+[ManhattanPlot_COVID4Datasets_CD14_Mono.pdf](https://github.com/user-attachments/files/17333483/ManhattanPlot_COVID4Datasets_CD14_Mono.pdf)
+
 
