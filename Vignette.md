@@ -166,10 +166,15 @@ figure = MakeExpressionFigure(Datasets=Datasets,CellTypeLevel=CellTypeLevel,Case
 figure
 dev.off()
 # Note this related paper (https://www.nature.com/articles/s41586-023-06322-y).
+# Below we also include CD63 for CD14 Monocytes.
 ```
 ![image](https://github.com/user-attachments/assets/31d9a348-e5e4-4ea3-9985-20dbce0f68db)
 
 [PLSCR1_CD4_T_Expression_std_dev.pdf](https://github.com/user-attachments/files/17334408/PLSCR1_CD4_T_Expression_std_dev.pdf)
+
+![image](https://github.com/user-attachments/assets/95856752-7d65-4129-91b1-c4353a97ed3c)
+
+[CD63_CD14_Mono_Expression_std_dev.pdf](https://github.com/user-attachments/files/17335199/CD63_CD14_Mono_Expression_std_dev.pdf)
 
 
 ```
