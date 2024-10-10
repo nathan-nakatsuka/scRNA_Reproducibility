@@ -172,4 +172,29 @@ dev.off()
 [PLSCR1_CD4_T_Expression_std_dev.pdf](https://github.com/user-attachments/files/17334408/PLSCR1_CD4_T_Expression_std_dev.pdf)
 
 
+```
+## This is to create Violin plots
+CellTypeLevel="predicted.celltype.l1_2"
+CaseName="COVID-19"
+ControlName="healthy"
+GeneofInterest="PLSCR1"
+ClusterofInterest = "CD4_T"
+Datasets= c("wilk", "arunachalam", "lee", "wen")
+
+objs=list()
+for(i in 1:length(Datasets)){
+  currentTest <- get(paste("avg_exp_Mean_",Datasets[i],sep=""))
+  currentTest = subset(currentTest, subset = disease_status_standard %in% c(CaseName,ControlName))
+  Idents(currentTest) <- ClusterofInterest
+  objs[[i]]=VlnPlot(object=currentTest,features=GeneofInterest,split.by="disease_status_standard",idents=ClusterofInterest)+ggtitle(Datasets[i])
+}
+pdf(paste0(GeneofInterest,"_",ClusterofInterest,"_Expression_VlnPlots.pdf"))
+CombinePlots(plots=objs)
+dev.off()
+```
+
+![image](https://github.com/user-attachments/assets/035452d0-deda-4792-b4e9-352c68682790)
+
+[PLSCR1_CD4_T_Expression_VlnPlots.pdf](https://github.com/user-attachments/files/17334692/PLSCR1_CD4_T_Expression_VlnPlots.pdf)
+
 
