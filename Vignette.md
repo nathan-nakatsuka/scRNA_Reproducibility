@@ -127,9 +127,9 @@ dev.off()
 ## Note: Below we also include results of CD14 Monocytes as an example of a predicted.celltype.l2 cell type.
 ```
 
-![image](https://github.com/user-attachments/assets/ade374c6-3619-4a0b-b2c3-f608d04e34b1)
+![image](https://github.com/user-attachments/assets/a08de467-a3e5-485e-9080-84d65f463e69)
 
-[ManhattanPlot_COVID4Datasets_CD4_T.pdf](https://github.com/user-attachments/files/17333627/ManhattanPlot_COVID4Datasets_CD4_T.pdf)
+[ManhattanPlot_COVID4Datasets_CD4_T.pdf](https://github.com/user-attachments/files/17333704/ManhattanPlot_COVID4Datasets_CD4_T.pdf)
 
 
 ![image](https://github.com/user-attachments/assets/5d23a0d5-baed-4054-9566-b5024d0a1631)
