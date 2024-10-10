@@ -165,6 +165,7 @@ pdf(paste0(GeneofInterest,"_",ClusterofInterest,"_Expression_std_dev.pdf"))
 figure = MakeExpressionFigure(Datasets=Datasets,CellTypeLevel=CellTypeLevel,CaseName=CaseName,ControlName=ControlName,GeneofInterest=GeneofInterest,CellType=ClusterofInterest,DatasetNumbersTable=COVID_DatasetNumbers)
 figure
 dev.off()
+# Note this related paper (https://www.nature.com/articles/s41586-023-06322-y).
 ```
 ![image](https://github.com/user-attachments/assets/31d9a348-e5e4-4ea3-9985-20dbce0f68db)
 
