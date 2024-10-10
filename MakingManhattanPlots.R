@@ -3,7 +3,7 @@
 # OtherNegLogPValueCutoff is a cutoff that can be used that is usually lower than the significant value threshold (this can be obtained by cross-validation to see what maximized reproducibility).
 # TopValueCutoff is the top negative log10 p-value allowed (values of infinite, which is obtained if the value is above that of every permutation value, will be set to this for plotting purposes).
 # Desiredggtitle is the title of the ggplot. jitter_amount is the amount of jitter to add to points that are at the top due to having infinite negative log10 p-values.
-MakeManhattanPlot <- function(CalibratedPValuesTable, OtherNegLogPValueCutoff,TopValueCutoff, Desiredggtitle,jitter_amount=0.01){
+MakeManhattanPlot <- function(CalibratedPValuesTable, OtherNegLogPValueCutoff,TopValueCutoff, Desiredggtitle,jitter_amount=0.01,pointsize=1.0,textsize=0.5){
   CalibratedPValuesTable$PlotPoint = 1:nrow(CalibratedPValuesTable)
   CalibratedPValuesTable$New_NegLogPValue = -log10(CalibratedPValuesTable$PVal)
   # Generate jittered values for each infinite entry
@@ -15,9 +15,9 @@ MakeManhattanPlot <- function(CalibratedPValuesTable, OtherNegLogPValueCutoff,To
   SignificantGenes2=SignificantGenes2[!(SignificantGenes2$Gene %in% SignificantGenes$Gene),]
   bad = CalibratedPValuesTable[CalibratedPValuesTable$PVal_BH>0.05,]
   Badcutoff = max(bad$New_NegLogPValue)+0.00001
-  plot(CalibratedPValuesTable$PlotPoint,CalibratedPValuesTable$New_NegLogPValue,ylim=c(0,(as.numeric(TopValueCutoff)+1)),pch=20,xaxt='n',xlab="Genes",ylab=expression("-log"[10]*"(p-value)"),main=Desiredggtitle,cex.main=0.6)
+  plot(CalibratedPValuesTable$PlotPoint,CalibratedPValuesTable$New_NegLogPValue,ylim=c(0,(as.numeric(TopValueCutoff)+1)),pch=20,cex=pointsize,xaxt='n',xlab="Genes",ylab=expression("-log"[10]*"(p-value)"),main=Desiredggtitle,cex.main=0.6)
   abline(h=Badcutoff, lty=3,col="red",lwd=1.5)
-  if(nrow(SignificantGenes)>0){text(x=SignificantGenes$PlotPoint,y=SignificantGenes$New_NegLogPValue,labels=SignificantGenes$Gene,col="red",cex=0.5)}
+  if(nrow(SignificantGenes)>0){text(x=SignificantGenes$PlotPoint,y=SignificantGenes$New_NegLogPValue+0.05,labels=SignificantGenes$Gene,col="red",cex=textsize)}
   if(Badcutoff>as.numeric(OtherNegLogPValueCutoff)){abline(h=as.numeric(OtherNegLogPValueCutoff), lty=3,col="orange",lwd=1.5)}
-  if(nrow(SignificantGenes2)>0){text(x=SignificantGenes2$PlotPoint,y=SignificantGenes2$New_NegLogPValue,labels=SignificantGenes2$Gene,col="orange",cex=0.5)}
+  if(nrow(SignificantGenes2)>0){text(x=SignificantGenes2$PlotPoint,y=SignificantGenes2$New_NegLogPValue+0.05,labels=SignificantGenes2$Gene,col="orange",cex=textsize)}
 }
