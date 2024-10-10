@@ -65,7 +65,7 @@ setwd("/home/mydirectory")
 SumRank(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID, SuffixofDifferentialExpressionOutput="UpReg", CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory="/home/mydirectory")
 
 # Do Permutations
-# Important Note: The code below is extremely slow due to the long amount of time it takes to run differential expression on the datasets 1000 times.
+# Important Note: The code below is extremely slow (e.g. ~8-12 hours) due to the long amount of time it takes to run differential expression on the datasets 1000 times.
 # If possible, it is ideal if you run this code in parallel (i.e. instead of doing the loop of z=1:1000, run each permutation (or sets of 10-100) independently on a cluster, which will make this much faster).
 setwd("/home/mydirectory/Permutations")
 for(z in 1:1000){
