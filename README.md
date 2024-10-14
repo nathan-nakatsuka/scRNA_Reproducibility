@@ -9,8 +9,16 @@ Nakatsuka, N.; Adler, D.; Jiang, L.; Hartman, A.; Cheng, E.; Klann, E.; Satija, 
 **Contact:** Nathan Nakatsuka: 08nanaka@gmail.com
 
 
+## <p>Software Requirements:</p>
 
+R version 4.3.1 or higher
 
+R libraries:
+Seurat version 4.3.0 or higher
+SeuratDisk
+DESeq2
+unifed version 1.16
+ggplot2
 
 ## <p>Steps for use:</p>
 
