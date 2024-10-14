@@ -30,6 +30,7 @@ SeuratDisk
 DESeq2
 unifed version 1.16
 ggplot2
+These can be installed with the following command in an R terminal: install.packages(c('ggplot2', 'Seurat', 'SeuratDisk', 'DESeq2', 'unifed'))
 ```
 ## <p>Installation Guide:</p>
 No installation is required for this software. Simply load each of the functions in R and then run them as indicated in the Vignette.</p>
