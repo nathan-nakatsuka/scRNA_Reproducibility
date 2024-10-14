@@ -31,6 +31,8 @@ DESeq2
 unifed version 1.16
 ggplot2
 ```
+## <p>Installation Guide:</p>
+No installation is required for this software. Simply load each of the functions in R and then run them as indicated in the Vignette.</p>
 
 ## <p>Steps for use:</p>
 
