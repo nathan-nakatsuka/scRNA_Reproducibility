@@ -9,7 +9,7 @@ Nakatsuka, N.; Adler, D.; Jiang, L.; Hartman, A.; Cheng, E.; Klann, E.; Satija, 
 **Contact:** Nathan Nakatsuka: 08nanaka@gmail.com
 
 ## <p>Overview:</p>
-SumRank is a software that allows the assessment of the reproducibility of genes across multiple datasets. The algorithm works by summing up the relative ranks of genes in each dataset (while also allowing only a certain percentage of datasets to be used for each gene if desired). Permutations are used to calibrate p-values. </p>
+SumRank is a software that allows the assessment of the reproducibility of genes across multiple datasets. The algorithm works by summing up the relative differential expression ranks of genes in each dataset (while also allowing only a certain percentage of datasets to be used for each gene if desired). Genes with high relative rank in many datasets are considered reproducibly differentially expressed. Permutations are used to calibrate p-values. </p>
 
 ## <p>Software Requirements:</p>
 
