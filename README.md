@@ -13,12 +13,12 @@ Nakatsuka, N.; Adler, D.; Jiang, L.; Hartman, A.; Cheng, E.; Klann, E.; Satija, 
 
 R version 4.3.1 or higher
 
-R libraries:
-Seurat version 4.3.0 or higher
-SeuratDisk
-DESeq2
-unifed version 1.16
-ggplot2
+R libraries:</p>
+Seurat version 4.3.0 or higher</p>
+SeuratDisk</p>
+DESeq2</p>
+unifed version 1.16</p>
+ggplot2</p>
 
 ## <p>Steps for use:</p>
 
