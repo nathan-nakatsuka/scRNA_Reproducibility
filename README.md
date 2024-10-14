@@ -13,6 +13,12 @@ SumRank is a software that allows the assessment of the reproducibility of genes
 
 ## <p>Software Requirements:</p>
 
+**OS Requirements:**
+This package is supported for macOS and LInux. The package has been tested on the following systems:</p>
+* macOS: Sonoma (14.6.1)
+* Linux: Ubuntu 16.04
+
+**R Dependencies:**
 R version 4.3.1 or higher
 
 R libraries:</p>
