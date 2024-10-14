@@ -52,3 +52,6 @@ Notes:
 The AdditionalExamplecode.R has example code for the merge, inverse variance, and sex specific analyses.
 
 The UCell_AUC_code.R document has example code for obtaining UCell scores from gene sets and using them to test case-control statuses in held out datasets.
+
+## <p>License:</p>
+This project is covered under the Apache 2.0 License.
