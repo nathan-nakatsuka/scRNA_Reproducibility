@@ -16,11 +16,13 @@ SumRank is a software that allows the assessment of the reproducibility of genes
 R version 4.3.1 or higher
 
 R libraries:</p>
-Seurat version 4.3.0 or higher</p>
-SeuratDisk</p>
-DESeq2</p>
-unifed version 1.16</p>
-ggplot2</p>
+'''
+Seurat version 4.3.0 or higher
+SeuratDisk
+DESeq2
+unifed version 1.16
+ggplot2
+'''
 
 ## <p>Steps for use:</p>
 
