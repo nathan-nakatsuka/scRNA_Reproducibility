@@ -66,5 +66,9 @@ The AdditionalExamplecode.R has example code for the merge, inverse variance, an
 
 The UCell_AUC_code.R document has example code for obtaining UCell scores from gene sets and using them to test case-control statuses in held out datasets.
 
+## <p>Run Time:</p>
+On a standard laptop computer, it takes ~15 minutes to run 1000 permutations of case control status (PermuteCaseControl function) on the 4 COVID-19 datasets in the Vignette. It takes ~9.25 hours to run 1000 permutations of differential expression with DESeq2 for 4 COVID-19 datasets of a single cell type (Monocytes). It takes ~36 minutes to run SumRank on these 1000 permutations of differential expression.</p>
+
+
 ## <p>License:</p>
 This project is covered under the Apache 2.0 License.
