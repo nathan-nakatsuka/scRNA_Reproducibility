@@ -66,7 +66,7 @@ The AdditionalExamplecode.R has example code for the merge, inverse variance, an
 
 The UCell_AUC_code.R document has example code for obtaining UCell scores from gene sets and using them to test case-control statuses in held out datasets.
 
-The GSEA_SumRank.R document has example code for pathway reproducibility analyses, which uses Gene Set Enrichment Analysis (GSEA) on each dataset, ranks each pathway by p-value and then assesses for pathways consistently found to be up- or down-regulated.
+The SumRank_GSEAPathways.R document has example code for pathway reproducibility analyses, which uses Gene Set Enrichment Analysis (GSEA) on each dataset, ranks each pathway by p-value and then assesses for pathways consistently found to be up- or down-regulated.
 
 
 ## <p>Run Time:</p>
