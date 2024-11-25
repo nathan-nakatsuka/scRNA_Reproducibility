@@ -34,7 +34,7 @@ assign(paste0("avg_exp_",Datasets[i]),avg_temp)
 }
 
 setwd("/home/mydirectory")
-# Differential Expression (only doing Monocytes here as an example)
+# Differential Expression (only doing CD4_T here as an example)
 # Note: This is only for up-regulated genes (for down-regulated genes, just switch the COVID-19 to ident.2 and the healthy to ident.1).
 # Note: All of these files will be output to the same directory. User can make another directory and output files there if desired.
 ClusterofInterest = "CD4_T"
