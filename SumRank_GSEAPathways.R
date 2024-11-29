@@ -2,7 +2,7 @@
 # PresenceofDataTable is a table detailing whether a cell type has data for each cell type.
 # This code requires the user to have files named DatasetName_CellType_DifferentialExpression_SuffixofDifferentialExpressionOutput.txt in the directory
 # SuffixofDifferentialExpressionOutput is the end of the name you gave your differential expression file (e.g. "UpReg").
-# This function will output multiple files including CellType_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_ProportionofTopDatasetNames_ofDatasetNames.txt, which includes p-values for all genes based on their reproducibility.
+# This function will output multiple files including CellType_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_ProportionofTopDatasetNames_ofDatasetNames_GSEAPathwayRanks.txt, which includes p-values for all pathways based on their reproducibility.
 # m_df_gene2term is a data frame of 2 columns, the first of gene set names and the second of gene symbols for which pathway the genes are in.
 SumRank_GSEAPathways <- function(DatasetNames,BroadClusterTypes,SuffixofDifferentialExpressionOutput="",CommonGenes,ProportionofTopDatasetNames,PresenceofDataTable,directory,m_df_gene2term){
 #### Step 1: Rank by Signed NegLog p-value
@@ -55,6 +55,7 @@ for(i in 1:length(DatasetNames)){
       finalpathwaylist = finalpathwaylist[finalpathwaylist %in% currentTest$ID]
 }}}
 FinalPathwayList_Table = as.data.frame(finalpathwaylist)
+write.table(FinalPathwayList_Table, file=paste("GSEAPathways_FinalPathwayListTable.txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 
 ## Subset all datasets to FinalPathway list.
 for(i in 1:length(DatasetNames)){
