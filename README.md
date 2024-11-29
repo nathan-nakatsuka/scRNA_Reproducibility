@@ -56,7 +56,7 @@ Alternatively, b) use a mixed model differential expression method to control fo
 3) Plot Manhattan plot with the MakeManhattanPlot function.
 
 <br/>
-See Vignette.md for example of how to run the code.
+See Vignette.md for example of how to run the code. Vignette_GSEAPathways.md has an example of how to run the GSEA SumRank version.
 <br/>
 <br/>
 
