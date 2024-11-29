@@ -9,9 +9,8 @@
 3) Perform GSEA SumRank Analyses.
 4) Perform Permutations of case/control status and then differential expression and GSEA SumRank analyses of the Permutations.<br/>
 5) Use the permutations to calibrate the p-values of the real data.<br/>
-6) Plot the results.<br/> 
 ```
-# Read in the following functions that can be found in PseudoBulking.R, SumRank_GSEAPathways.R, CalibratePValueswithPermutations.R, MakePresenceofDataTable.R, and MakingManhattanPlot.R code: AverageMetaData, PseudobulkSeuratObject_Aggregate, GetCommonGenes, SumRank_GSEAPathways, MakePresenceofDataTable, PermuteCaseControl, CalibratePValueswithPermutations, MakeManhattanPlot
+# Read in the following functions that can be found in PseudoBulking.R, SumRank_GSEAPathways.R, CalibratePValueswithPermutations.R, and MakePresenceofDataTable.R code: AverageMetaData, PseudobulkSeuratObject_Aggregate, GetCommonGenes, SumRank_GSEAPathways, MakePresenceofDataTable, PermuteCaseControl, CalibratePValueswithPermutations
 
 library(Seurat)
 library(DESeq2)
@@ -70,16 +69,22 @@ ProportionofDatasetstoUse = 1.0
 setwd("/home/mydirectory")
 CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory="/home/mydirectory")
 
+# Note: You can change this if you want other biological pathways.
 m_df <- msigdbr(species = "Homo sapiens",category="C5",subcategory = "GO:BP")
 m_df_dataframe <- as.data.frame(m_df)
 m_df_dataframe2 = m_df_dataframe[m_df_dataframe$gene_symbol%in% CommonGenes,]
 m_df_gene2term = data.frame(TERM=m_df_dataframe2$gs_name,GENE=m_df_dataframe2$gene_symbol)
+
+
 
 SumRank_GSEAPathways(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID, SuffixofDifferentialExpressionOutput="UpReg", CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory="/home/mydirectory", m_df_gene2term=m_df_gene2term)
 
 # Do Permutations
 # Important Note: The code below is slow (e.g. ~8-12 hours) due to the long amount of time it takes to run differential expression on the datasets 1000 times.
 # If possible, it is ideal if you run this code in parallel (i.e. instead of doing the loop of z=1:1000, run each permutation (or sets of 10-100) independently on a cluster, which will make this much faster).
+setwd("/home/mydirectory")
+FinalPathwayList_Table=read.table("GSEAPathways_FinalPathwayTable.txt",header=T)
+
 setwd("/home/mydirectory/Permutations")
 for(z in 1:1000){
 PermutationNumber=z
@@ -103,22 +108,23 @@ for(i in 1:length(Datasets)){
     write.table(temp10, file=paste(Datasets[i],"_",ClusterofInterest,"_DifferentialExpression_Permutation_",as.character(PermutationNumber),".txt",sep=""),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 }
 
-# Do SumRank on the permuted differential expression data.
-SumRank_GSEAPathways(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID,
-SuffixofDifferentialExpressionOutput=paste0("Permutation_",as.character(PermutationNumber)),
-CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutations",m_df_gene2term=m_df_gene2term))
 for(i in 1:length(Datasets)){
 rm(list=paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNumber)))
 }
+
+# Do SumRank on the permuted differential expression data.
+SumRank_GSEAPathways_Permutations(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID,
+SuffixofDifferentialExpressionOutput=paste0("Permutation_",as.character(PermutationNumber)),
+CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutations",m_df_gene2term=m_df_gene2term),FinalPathwayList_Table=FinalPathwayList_Table)
 }
 
 # Combine the permutation results
 setwd("/home/mydirectory/Permutations")
 TotalNumberofPermutations = 1000
-ComparisonTable = data.frame(1:(TotalNumberofPermutations*length(CommonGenes_COVID)))
+ComparisonTable = data.frame(1:(TotalNumberofPermutations*nrow(FinalPathwayList_Table)))
 for(z in 1:TotalNumberofPermutations){
     PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation_",as.character(z),"_GSEAPathwayRanks.txt",sep=""),header=T)
-    ComparisonTable[((z-1)*length(CommonGenes_COVID)+1):(z*length(CommonGenes_COVID)),1] = PVal_DirwinHallTable$NegLogPValue
+    ComparisonTable[((z-1)*nrow(FinalPathwayList_Table)+1):(z*nrow(FinalPathwayList_Table)),1] = PVal_DirwinHallTable$NegLogPValue
 }
 setwd("/home/mydirectory")
 write.table(ComparisonTable,paste0("/home/mydirectory/PermutationComparisonTable_",ClusterofInterest,"_GSEAPathwayRanks.txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
@@ -128,17 +134,6 @@ PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLo
 FinalPValues = CalibratePValueswithPermutations(CommonGenes=CommonGenes_COVID, ComparisonTable=ComparisonTable,
 PVal_DirwinHallTable=PVal_DirwinHallTable)
 write.table(FinalPValues,paste0("/home/mydirectory/FinalPValues_COVID_4Datasets_",ClusterofInterest,"_GSEAPathwayRanks.txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
-
-# Plot Manhattan plot
-# Note: this is not as good as the results with 16 datasets but with 4 datasets some of the patterns are still clear.
-# Note: the significant genes in this plot were jittered substantially so they would be more clear, but they all had infinite -log10(p-value)s. The jitter's randomness makes it such that the top points in the figure generated will look different each time it is made (feel free to decrease the jitter_amount to decrease the variation).
-pdf(paste0("ManhattanPlot_COVID4Datasets_",ClusterofInterest,"_GSEAPathwayRanks.pdf"))
-MakeManhattanPlot(CalibratedPValuesTable=FinalPValues, OtherNegLogPValueCutoff=3, TopValueCutoff=9,
-                  Desiredggtitle="Manhattan Plot of COVID-19 vs. Healthy SumRank GSEA Pathways in CD4 T Cells",jitter_amount=0.7,pointsize=0.3,textsize=0.3)
-dev.off()
-
-## Note: Below we also include results of CD14 Monocytes as an example of a predicted.celltype.l2 cell type.
-```
 
 ```
 
