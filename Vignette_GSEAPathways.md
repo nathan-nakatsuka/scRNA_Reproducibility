@@ -132,9 +132,8 @@ write.table(ComparisonTable,paste0("/home/mydirectory/PermutationComparisonTable
 
 # Compare permutation results to the results of real data to calibrate the p-values of the real data.
 PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPVals_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_UpReg_GSEAPathwayRanks.txt",sep=""),header=T)
-FinalPValues = CalibratePValueswithPermutations(CommonGenes=CommonGenes_COVID, ComparisonTable=ComparisonTable,
+FinalPValues = CalibratePValueswithPermutations(CommonGenes=FinalPathwayList_Table[,1], ComparisonTable=ComparisonTable,
 PVal_DirwinHallTable=PVal_DirwinHallTable)
 write.table(FinalPValues,paste0("/home/mydirectory/FinalPValues_COVID_4Datasets_",ClusterofInterest,"_GSEAPathwayRanks.txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
-
 ```
 
