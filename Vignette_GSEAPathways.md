@@ -67,12 +67,10 @@ CommonGenes_COVID = GetCommonGenes(DatasetNames=COVID_DatasetNames, BroadCluster
 ProportionofDatasetstoUse = 1.0
 # SumRank
 setwd("/home/mydirectory")
-CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory="/home/mydirectory")
-
 # Note: You can change this if you want other biological pathways.
 m_df <- msigdbr(species = "Homo sapiens",category="C5",subcategory = "GO:BP")
 m_df_dataframe <- as.data.frame(m_df)
-m_df_dataframe2 = m_df_dataframe[m_df_dataframe$gene_symbol%in% CommonGenes,]
+m_df_dataframe2 = m_df_dataframe[m_df_dataframe$gene_symbol%in% CommonGenes_COVID,]
 m_df_gene2term = data.frame(TERM=m_df_dataframe2$gs_name,GENE=m_df_dataframe2$gene_symbol)
 
 
