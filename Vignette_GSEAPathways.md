@@ -149,11 +149,11 @@ Top pathways from FinalPValues table. (note: GSEA appears to have a higher varia
 
 | Pathway | p-value | p-value_BH |
 |:-----------|:------------:|------------:|
-| GOBP_POSITIVE_REGULATION_OF_FIBROBLAST_PROLIFERATION     | data 2       | data 3      |
-| GOBP_LIPID_TRANSLOCATION     | data 5       | data 6      |
-| GOBP_VASCULAR_PROCESS_IN_CIRCULATORY_SYSTEM     | data 8       | data 9      |
-| GOBP_REGULATION_OF_MEMBRANE_LIPID_DISTRIBUTION     | data 2       | data 3      |
-| GOBP_REVERSE_CHOLESTEROL_TRANSPORT     | data 5       | data 6      |
-| GOBP_NEGATIVE_REGULATION_OF_VIRAL_GENOME_REPLICATION     | data 8       | data 9      |
+| GOBP_POSITIVE_REGULATION_OF_FIBROBLAST_PROLIFERATION     | 0.008096008       | 0.4819757      |
+| GOBP_LIPID_TRANSLOCATION     | 0.010850640       | 0.4819757      |
+| GOBP_VASCULAR_PROCESS_IN_CIRCULATORY_SYSTEM     | 0.010875513       | 0.4819757      |
+| GOBP_REGULATION_OF_MEMBRANE_LIPID_DISTRIBUTION     | 0.011016457       | 0.4819757      |
+| GOBP_REVERSE_CHOLESTEROL_TRANSPORT     | 0.011205074       | 0.4819757      |
+| GOBP_NEGATIVE_REGULATION_OF_VIRAL_GENOME_REPLICATION     | 0.011310782       | 0.4819757      |
 
 ```
