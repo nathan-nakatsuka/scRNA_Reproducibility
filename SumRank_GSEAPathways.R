@@ -17,6 +17,7 @@ for(i in 1:length(DatasetNames)){
 			currentTest$SignedNegLogPVal=currentTest$NegLogPVal
 			## Set the SignedNegLogPVal to be negative if the log2FC is negative.
 			currentTest$SignedNegLogPVal[currentTest$avg_log2FC<0] <- -currentTest$SignedNegLogPVal[currentTest$avg_log2FC<0]
+			currentTest$SignedNegLogPVal[is.na(currentTest$SignedNegLogPVal)] <- 0
 			currentTest = currentTest[order(currentTest$SignedNegLogPVal,decreasing=TRUE),]
 			currentTest$SignedNegLogPVal_rank = rank(-currentTest$SignedNegLogPVal)
       assign(paste0(DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked"),currentTest)
