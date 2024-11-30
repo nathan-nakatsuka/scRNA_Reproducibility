@@ -85,6 +85,7 @@ SumRank_GSEAPathways(DatasetNames = COVID_DatasetNames, BroadClusterTypes = "CD4
 setwd("/home/mydirectory")
 FinalPathwayList_Table=read.table("GSEAPathways_FinalPathwayTable.txt",header=T)
 
+# Note the differential expression does not need to be re-done if it was done on the Vignette.md previously.
 setwd("/home/mydirectory/Permutations")
 for(z in 1:1000){
 PermutationNumber=z
@@ -115,7 +116,7 @@ rm(list=paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNum
 # Do SumRank on the permuted differential expression data.
 SumRank_GSEAPathways_Permutations(DatasetNames = COVID_DatasetNames, BroadClusterTypes = "CD4_T",
 SuffixofDifferentialExpressionOutput=paste0("Permutation_",as.character(PermutationNumber)),
-CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutations",m_df_gene2term=m_df_gene2term),FinalPathwayList_Table=FinalPathwayList_Table)
+CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutations"),m_df_gene2term=m_df_gene2term,FinalPathwayList_Table=FinalPathwayList_Table)
 }
 
 # Combine the permutation results
