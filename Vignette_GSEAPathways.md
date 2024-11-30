@@ -145,7 +145,7 @@ FinalPValues = CalibratePValueswithPermutations(CommonGenes=FinalPathwayList_Tab
 PVal_DirwinHallTable=PVal_DirwinHallTable)
 write.table(FinalPValues,paste0("/home/mydirectory/FinalPValues_COVID_4Datasets_",ClusterofInterest,"_GSEAPathwayRanks.txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 ```
-Top pathways from FinalPValues table. (note: GSEA appears to have a higher variance due to the smaller number of pathways (relative to number of genes), so the GSEA SumRank algorithm requires more datasets to work well and achieve statistically significant pathways).
+Top pathways from FinalPValues table. (note: GSEA appears to have a higher variance due to the smaller number of pathways (relative to number of genes as in the normal SumRank algorithm), so the GSEA SumRank algorithm requires more datasets to work well and achieve statistically significant pathways).
 
 | Pathway | p-value | p-value_BH |
 |:-----------|:------------:|------------:|
