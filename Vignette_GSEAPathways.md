@@ -77,7 +77,7 @@ m_df_gene2term = data.frame(TERM=m_df_dataframe2$gs_name,GENE=m_df_dataframe2$ge
 
 
 
-SumRank_GSEAPathways(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID, SuffixofDifferentialExpressionOutput="UpReg", CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory="/home/mydirectory", m_df_gene2term=m_df_gene2term)
+SumRank_GSEAPathways(DatasetNames = COVID_DatasetNames, BroadClusterTypes = "CD4_T", SuffixofDifferentialExpressionOutput="UpReg", CommonGenes=CommonGenes_COVID, ProportionofTopDatasetNames=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory="/home/mydirectory", m_df_gene2term=m_df_gene2term)
 
 # Do Permutations
 # Important Note: The code below is slow (e.g. ~8-12 hours) due to the long amount of time it takes to run differential expression on the datasets 1000 times.
@@ -113,9 +113,9 @@ rm(list=paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNum
 }
 
 # Do SumRank on the permuted differential expression data.
-SumRank_GSEAPathways_Permutations(DatasetNames = COVID_DatasetNames, BroadClusterTypes = BroadClusterTypes_COVID,
+SumRank_GSEAPathways_Permutations(DatasetNames = COVID_DatasetNames, BroadClusterTypes = "CD4_T",
 SuffixofDifferentialExpressionOutput=paste0("Permutation_",as.character(PermutationNumber)),
-CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutations",m_df_gene2term=m_df_gene2term),FinalPathwayList_Table=FinalPathwayList_Table)
+CommonGenes=CommonGenes_COVID, ProportionofTopDatasetNames=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutations",m_df_gene2term=m_df_gene2term),FinalPathwayList_Table=FinalPathwayList_Table)
 }
 
 # Combine the permutation results
