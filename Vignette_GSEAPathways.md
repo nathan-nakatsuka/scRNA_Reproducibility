@@ -136,4 +136,12 @@ FinalPValues = CalibratePValueswithPermutations(CommonGenes=FinalPathwayList_Tab
 PVal_DirwinHallTable=PVal_DirwinHallTable)
 write.table(FinalPValues,paste0("/home/mydirectory/FinalPValues_COVID_4Datasets_",ClusterofInterest,"_GSEAPathwayRanks.txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 ```
+Top pathways from FinalPValues table.
 
+| Pathway | p-value | p-value_BH |
+|:-----------|:------------:|------------:|
+| data 1     | data 2       | data 3      |
+| data 4     | data 5       | data 6      |
+| data 7     | data 8       | data 9      |
+
+```
