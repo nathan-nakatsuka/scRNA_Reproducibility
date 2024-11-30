@@ -49,6 +49,14 @@ for(i in 1:length(DatasetNames)){
     if(PresenceofDataTable[PresenceofDataTable$Dataset==DatasetNames[i],][BroadClusterTypes[j]][[1]]==1){
       currentTest <- get(paste0(DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked_GSEAPathwayRanks"))
       currentTest = currentTest[currentTest$ID %in% FinalPathwayList_Table[,1],]
+      missing_terms <- FinalPathwayList_Table[,1][!(FinalPathwayList_Table[,1] %in% currentTest$ID)]
+	# Add rows for the missing terms
+	if(length(missing_terms) > 0) {
+	  # Create a new data frame for missing terms
+	  missing_rows <- data.frame(ID = missing_terms, pvalue=1, enrichmentScore=0,SignedNegLogPVal=0,SignedNegLogPVal_rank=NA)
+	  # Append the missing rows to the original data frame
+	  currentTest <- rbind(currentTest, missing_rows)
+	}	    
       currentTest$SignedNegLogPVal_rank=1:nrow(currentTest)
       assign(paste0(DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked_GSEAPathwayRanks_Subsetted"),currentTest)
 }}}
