@@ -92,7 +92,7 @@ for(j in 1:length(BroadClusterTypes)){
   assign(paste0(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_GSEAPathwayRanks"),SumRankTable)
 }
 
-###### Make a new table with the best (lowest) Sixty values for each gene:
+###### Make a new table with the best (lowest) values for each gene:
 for(j in 1:length(BroadClusterTypes)){
   SumRankTable <- get(paste0(BroadClusterTypes[j],"_CombinedSignedNegLogPValranksNormalized_GSEAPathwayRanks"))
   ## Get a dataframe without the first and last columns to find the number of relevant DatasetNames
