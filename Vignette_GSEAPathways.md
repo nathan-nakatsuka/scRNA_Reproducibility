@@ -76,7 +76,7 @@ m_df_dataframe2 = m_df_dataframe[m_df_dataframe$gene_symbol%in% CommonGenes,]
 m_df_gene2term = data.frame(TERM=m_df_dataframe2$gs_name,GENE=m_df_dataframe2$gene_symbol)
 
 
-
+# This takes ~6.9 minutes.
 SumRank_GSEAPathways(DatasetNames = COVID_DatasetNames, BroadClusterTypes = "CD4_T", SuffixofDifferentialExpressionOutput="UpReg", CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory="/home/mydirectory", m_df_gene2term=m_df_gene2term)
 
 # Do Permutations
