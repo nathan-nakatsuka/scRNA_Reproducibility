@@ -30,7 +30,7 @@ for(i in 1:length(DatasetNames)){
       currentTest <- get(paste0(DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked"))
       currentTest_geneList = setNames(currentTest$SignedNegLogPVal,currentTest$Gene)
       m_df_gene2term = m_df_gene2term[m_df_gene2term$GENE %in% CommonGenes,]
-      temporary = GSEA(geneList = currentTest_geneList, TERM2GENE=m_df_gene2term,pvalueCutoff=1)
+      temporary = GSEA(geneList = currentTest_geneList, TERM2GENE=m_df_gene2term,pvalueCutoff=1.1)
       PathwaysDataframe = as.data.frame(temporary)
       PathwaysDataframe = data.frame(ID=PathwaysDataframe$ID,pvalue=PathwaysDataframe$pvalue,enrichmentScore=PathwaysDataframe$enrichmentScore)
       PathwaysDataframe$SignedNegLogPVal = -log10(PathwaysDataframe$pvalue)
