@@ -120,11 +120,21 @@ CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse
 }
 
 # Combine the permutation results
+## First make sure all the pathway elements are the same.
+z=1
+setwd("/home/mydirectory/Permutations")
+PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation_",as.character(z),"_GSEAPathwayRanks.txt",sep=""),header=T)
+setwd("/home/mydirectory")
+PVal_DirwinHallTable2 <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_UpReg_GSEAPathwayRanks.txt",sep=""),header=T)
+common_elements <- Reduce(intersect, list(PVal_DirwinHallTable$Gene, PVal_DirwinHallTable2$Gene, FinalPathwayList_Table[,1]))
+FinalPathwayList_Table=data.frame(FinalPathwayList_Table[FinalPathwayList_Table[,1] %in% common_elements,])
+
 setwd("/home/mydirectory/Permutations")
 TotalNumberofPermutations = 1000
 ComparisonTable = data.frame(1:(TotalNumberofPermutations*nrow(FinalPathwayList_Table)))
 for(z in 1:TotalNumberofPermutations){
     PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation_",as.character(z),"_GSEAPathwayRanks.txt",sep=""),header=T)
+  PVal_DirwinHallTable=PVal_DirwinHallTable[PVal_DirwinHallTable$Gene %in% common_elements,]
     ComparisonTable[((z-1)*nrow(FinalPathwayList_Table)+1):(z*nrow(FinalPathwayList_Table)),1] = PVal_DirwinHallTable$NegLogPValue
 }
 setwd("/home/mydirectory")
@@ -132,6 +142,7 @@ write.table(ComparisonTable,paste0("/home/mydirectory/PermutationComparisonTable
 
 # Compare permutation results to the results of real data to calibrate the p-values of the real data.
 PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_UpReg_GSEAPathwayRanks.txt",sep=""),header=T)
+PVal_DirwinHallTable=PVal_DirwinHallTable[PVal_DirwinHallTable$Gene %in% common_elements,]
 FinalPValues = CalibratePValueswithPermutations(CommonGenes=FinalPathwayList_Table[,1], ComparisonTable=ComparisonTable,
 PVal_DirwinHallTable=PVal_DirwinHallTable)
 write.table(FinalPValues,paste0("/home/mydirectory/FinalPValues_COVID_4Datasets_",ClusterofInterest,"_GSEAPathwayRanks.txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
