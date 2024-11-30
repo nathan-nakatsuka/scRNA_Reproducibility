@@ -29,7 +29,7 @@ for(i in 1:length(DatasetNames)){
     if(PresenceofDataTable[PresenceofDataTable$Dataset==DatasetNames[i],][BroadClusterTypes[j]][[1]]==1){
       currentTest <- get(paste0(DatasetNames[i],"_",BroadClusterTypes[j],"_SignedNegLogPVal_ranked"))
       currentTest_geneList = setNames(currentTest$SignedNegLogPVal,currentTest$Gene)
-      m_df_gene2term = m_df_gene2term[m_df_gene2term$gene_symbol %in% CommonGenes,]
+      m_df_gene2term = m_df_gene2term[m_df_gene2term$GENE %in% CommonGenes,]
       temporary = GSEA(geneList = currentTest_geneList, TERM2GENE=m_df_gene2term,pvalueCutoff=1.1)
       PathwaysDataframe = as.data.frame(temporary)
       PathwaysDataframe = data.frame(ID=PathwaysDataframe$ID,pvalue=PathwaysDataframe$pvalue,enrichmentScore=PathwaysDataframe$enrichmentScore)
