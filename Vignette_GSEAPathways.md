@@ -145,15 +145,15 @@ FinalPValues = CalibratePValueswithPermutations(CommonGenes=FinalPathwayList_Tab
 PVal_DirwinHallTable=PVal_DirwinHallTable)
 write.table(FinalPValues,paste0("/home/mydirectory/FinalPValues_COVID_4Datasets_",ClusterofInterest,"_GSEAPathwayRanks.txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 ```
-Top pathways from FinalPValues table.
+Top pathways from FinalPValues table. (note: GSEA appears to have a higher variance due to the smaller number of pathways (relative to number of genes), so the GSEA SumRank algorithm requires more datasets to work well and achieve statistically significant pathways).
 
 | Pathway | p-value | p-value_BH |
 |:-----------|:------------:|------------:|
-| data 1     | data 2       | data 3      |
-| data 4     | data 5       | data 6      |
-| data 7     | data 8       | data 9      |
-| data 1     | data 2       | data 3      |
-| data 4     | data 5       | data 6      |
-| data 7     | data 8       | data 9      |
+| GOBP_POSITIVE_REGULATION_OF_FIBROBLAST_PROLIFERATION     | data 2       | data 3      |
+| GOBP_LIPID_TRANSLOCATION     | data 5       | data 6      |
+| GOBP_VASCULAR_PROCESS_IN_CIRCULATORY_SYSTEM     | data 8       | data 9      |
+| GOBP_REGULATION_OF_MEMBRANE_LIPID_DISTRIBUTION     | data 2       | data 3      |
+| GOBP_REVERSE_CHOLESTEROL_TRANSPORT     | data 5       | data 6      |
+| GOBP_NEGATIVE_REGULATION_OF_VIRAL_GENOME_REPLICATION     | data 8       | data 9      |
 
 ```
