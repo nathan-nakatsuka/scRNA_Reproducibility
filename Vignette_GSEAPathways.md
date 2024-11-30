@@ -83,7 +83,7 @@ SumRank_GSEAPathways(DatasetNames = COVID_DatasetNames, BroadClusterTypes = "CD4
 # Important Note: The code below is slow (e.g. ~8-12 hours) due to the long amount of time it takes to run differential expression on the datasets 1000 times.
 # If possible, it is ideal if you run this code in parallel (i.e. instead of doing the loop of z=1:1000, run each permutation (or sets of 10-100) independently on a cluster, which will make this much faster).
 setwd("/home/mydirectory")
-FinalPathwayList_Table=read.table("GSEAPathways_FinalPathwayTable.txt",header=T)
+FinalPathwayList_Table=read.table("GSEAPathways_FinalPathwayListTable.txt",header=T)
 
 # Note the differential expression does not need to be re-done if it was done on the Vignette.md previously.
 setwd("/home/mydirectory/Permutations")
