@@ -85,7 +85,7 @@ FinalPathwayList_Table=read.table("GSEAPathways_FinalPathwayListTable.txt",heade
 
 # Note the differential expression does not need to be re-done if it was done on the Vignette.md previously.
 setwd("/home/mydirectory/Permutations")
-for(z in 1:1000){
+for(z in 1:100){
 PermutationNumber=z
 for(i in 1:length(Datasets)){
     currentTest <- get(paste("avg_exp_",Datasets[i],sep=""))
@@ -112,7 +112,7 @@ rm(list=paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNum
 }
 
 # Do SumRank on the permuted differential expression data.
-# Note: this takes very long (~110 hours) due to it taking ~5.5-6 minutes to do GSEA each time (the actual SumRank algorithm is fast).
+# Note: this takes very long (~11 hours for all 100 permutations) due to it taking ~5.5-6 minutes to do GSEA each time (the actual SumRank algorithm is fast).
 SumRank_GSEAPathways_Permutations(DatasetNames = COVID_DatasetNames, BroadClusterTypes = "CD4_T",
 SuffixofDifferentialExpressionOutput=paste0("Permutation_",as.character(PermutationNumber)),
 CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutations"),m_df_gene2term=m_df_gene2term,FinalPathwayList_Table=FinalPathwayList_Table)
@@ -129,7 +129,7 @@ common_elements <- Reduce(intersect, list(PVal_DirwinHallTable$Gene, PVal_Dirwin
 FinalPathwayList_Table=data.frame(FinalPathwayList_Table[FinalPathwayList_Table[,1] %in% common_elements,])
 
 setwd("/home/mydirectory/Permutations")
-TotalNumberofPermutations = 1000
+TotalNumberofPermutations = 100
 ComparisonTable = data.frame(1:(TotalNumberofPermutations*nrow(FinalPathwayList_Table)))
 for(z in 1:TotalNumberofPermutations){
     PVal_DirwinHallTable <- read.table(paste(ClusterofInterest,"_CombinedSignedNegLogPValranksNormalized_DirwinHallPValues_Top_",as.character(ProportionofDatasetstoUse),"_ofDatasets_Permutation_",as.character(z),"_GSEAPathwayRanks.txt",sep=""),header=T)
