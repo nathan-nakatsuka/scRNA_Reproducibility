@@ -112,6 +112,7 @@ rm(list=paste0("avg_exp_",Datasets[i],"_Permutation",as.character(PermutationNum
 }
 
 # Do SumRank on the permuted differential expression data.
+# Note: this takes very long (~110 hours) due to it taking ~5.5-6 minutes to do GSEA each time (the actual SumRank algorithm is fast).
 SumRank_GSEAPathways_Permutations(DatasetNames = COVID_DatasetNames, BroadClusterTypes = "CD4_T",
 SuffixofDifferentialExpressionOutput=paste0("Permutation_",as.character(PermutationNumber)),
 CommonGenes=CommonGenes_COVID, ProportionofTopDatasets=ProportionofDatasetstoUse, PresenceofDataTable=PresenceofDataTable_COVID, directory=paste0("/home/mydirectory/Permutations"),m_df_gene2term=m_df_gene2term,FinalPathwayList_Table=FinalPathwayList_Table)
@@ -145,7 +146,7 @@ FinalPValues = CalibratePValueswithPermutations(CommonGenes=FinalPathwayList_Tab
 PVal_DirwinHallTable=PVal_DirwinHallTable)
 write.table(FinalPValues,paste0("/home/mydirectory/FinalPValues_COVID_4Datasets_",ClusterofInterest,"_GSEAPathwayRanks.txt"),sep="\t",row.names=FALSE,col.names=TRUE,quote=FALSE)
 ```
-Top pathways from FinalPValues table. (note: GSEA appears to have a higher variance due to the smaller number of pathways (relative to number of genes as in the normal SumRank algorithm), so the GSEA SumRank algorithm requires more datasets to work well and achieve statistically significant pathways).
+Top pathways from FinalPValues table. (note: GSEA appears to have a higher variance due to the smaller number of pathways (relative to number of genes as in the normal SumRank algorithm), so the GSEA SumRank algorithm requires more datasets to work well and achieve statistically significant pathways; note: these value will vary due to the natural stochasticity of permutations.).
 
 | Pathway | p-value | p-value_BH |
 |:-----------|:------------:|------------:|
