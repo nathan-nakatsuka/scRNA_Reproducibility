@@ -4,7 +4,7 @@ These are the relevant scripts for the SumRank software and additional scripts f
 
 **Citation:** 
 <br/>
-Nakatsuka, N.; Adler, D.; Jiang, L.; Hartman, A.; Cheng, E.; Klann, E.; Satija, R. “A Reproducibility Focused Meta-Analysis Method for Single-Cell Transcriptomic Case-Control Studies Uncovers Robust Differentially Expressed Genes.” In revision.
+Nakatsuka, N.; Adler, D.; Jiang, L.; Hartman, A.; Cheng, E.; Klann, E.; Satija, R. “Improving reproducibility of differentially expressed genes in single-cell transcriptomic studies of neurodegenerative diseases through meta-analysis.” Nature Communications. 2025 Aug 12;16(1):7436. doi: 10.1038/s41467-025-62579-z.
 
 **Contact:** Nathan Nakatsuka: 08nanaka@gmail.com
 
